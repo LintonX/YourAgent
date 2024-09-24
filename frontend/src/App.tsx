@@ -1,10 +1,16 @@
 import React from "react";
 import "./App.css";
-import PricingView from "./screens/AgentView";
+import PricingView from "./screens/PricingView/PricingView";
+import NavBar from "./components/NavBar/NavBar";
+// import SignUpView from "./screens/SignUpView/SignUpView";
 
 function App() {
   return (
-    <PricingView/>
+    <>
+      <NavBar />
+      <PricingView/>
+      {/* <SignUpView /> */}
+    </>
   );
 }
 
