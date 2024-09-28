@@ -1,12 +1,12 @@
 import React from 'react'
 import '../../App.css'
-import './pricingCard.component.css'
+import './pricingCard.css'
 
 type PricingCardProps = {
     price: string;
     title: string;
     briefDescription: string;
-    description: string;
+    description: React.ReactNode;
     GetStartedButton: React.ReactNode;
 };
 

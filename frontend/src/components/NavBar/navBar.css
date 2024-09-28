@@ -1,0 +1,53 @@
+.nav-bar-container {
+    position:fixed;
+    top: 0;
+    width: 100%;
+    height: 200px;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-bar {
+    color: white;
+    display: flex;
+    padding-left: 300px;
+    padding-right: 300px;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(210, 210, 210, 0.658);
+    backdrop-filter: blur(7.7px);
+    width: 100vw;
+    height: 70px;
+    align-content: center;
+}
+
+.nav-bar-left {
+    display: flex;
+    align-items: center;
+}
+
+.nav-bar-left > ul {
+    font-size: 1.15rem;
+    font-weight: 600;
+    display: flex;
+    gap: 40px;
+    margin: 0px;
+    padding: 0px;
+    color: #005249;
+    list-style-type: none;
+}
+
+.nav-bar-left > ul > li:hover {
+    color: black;
+    cursor: pointer;
+    transform: scale(1.06);
+}
+
+#your-agent-logo {
+    cursor: pointer;
+    width: 140px;
+    margin-right: 70px;
+    opacity: 80%;
+}
+

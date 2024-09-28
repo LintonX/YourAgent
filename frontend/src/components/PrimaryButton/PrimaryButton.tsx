@@ -1,19 +1,17 @@
 import React from 'react'
 import '../../App.css'
-import '../PrimaryButton/primaryButton.component.css'
-import Button from 'react-bootstrap/Button';
+import '../PrimaryButton/primaryButton.css'
 
 type PrimaryButtonProps = {
   text: string;
-  variant: string;
   className: string;
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void | null;
 };
 
-function PrimaryButton({ text, variant, className, onClick }: PrimaryButtonProps) {
+function PrimaryButton({ text, onClick, className }: PrimaryButtonProps) {
 
   return (
-    <Button variant={variant} className={className} onClick={onClick}>{text}</Button>
+    <button onClick={onClick} className={className}>{text}</button>
   )
 }
 

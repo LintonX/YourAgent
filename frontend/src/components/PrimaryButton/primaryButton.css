@@ -1,0 +1,29 @@
+.btn.primary {
+  border-radius: var(--main-border-radius);
+  height: 38px;
+  color: rgb(255, 255, 255);
+  background-color: var(--main-dark-green-color);
+  -webkit-box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.12);
+  -moz-box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.12);
+  box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.12);
+}
+
+.btn.primary:hover{
+  color: white;
+  background-color: black;
+}
+
+.btn.secondary {
+  border-radius: var(--main-border-radius);
+  border: 1px solid var(--main-dark-green-color);;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  -webkit-box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.12);
+  -moz-box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.12);
+  box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.12);
+}
+
+.btn.secondary:hover {
+  background-color: black;
+  color: white;
+}

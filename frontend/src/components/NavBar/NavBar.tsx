@@ -1,40 +1,41 @@
 import React from 'react'
 import '../../App.css'
-import '../NavBar/navBar.component.css'
+import '../NavBar/navBar.css'
+import { YOUR_AGENT_SVG } from '../../constants'
 import PrimaryButton from '../PrimaryButton/PrimaryButton'
-import { useRef } from 'react'
 
 function NavBar() {
 
-    const featuresRef = useRef<HTMLDivElement | null>(null);
-
-    const handleFeatureButtonClick = () => {
-        featuresRef.current?.scrollIntoView()
-    }
+    const scrollToSection = (sectionName: string) => {
+        console.log("i was clickedddddd")
+        const section = document.getElementById(sectionName);
+        console.log(section)
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
   return (
     <div className='nav-bar-container'>
         <div className='nav-bar'>
-            <div>
-                <PrimaryButton
-                    variant='light'
-                    text='Features'
-                    className='btn btn-nav-bar1'
-                    onClick={handleFeatureButtonClick}
-                />
-                <PrimaryButton 
-                    variant='light'
-                    text='Pricing'
-                    className='btn btn-nav-bar1'
-                    onClick={handleFeatureButtonClick}
-                />
+            <div className='nav-bar-left'>
+                <img id='your-agent-logo' src={YOUR_AGENT_SVG} alt="YourAgent logo" onClick={() => {
+                    document.documentElement.scrollTop = 0;
+                }} />
+                <ul>
+                    <li onClick={() => scrollToSection('features-container')}>
+                        How It Works
+                    </li>
+                    <li onClick={() => scrollToSection('pricing-cards-container')}>
+                        Pricing
+                    </li>
+                </ul>
             </div>
-            <div>
+            <div className='nav-bar-right'>
                 <PrimaryButton 
-                    variant='light'
                     text='Sign in'
-                    className='btn btn-nav-bar2'
-                    onClick={handleFeatureButtonClick}
+                    className="btn secondary"
+                    onClick={() => {console.log("clicked")}}
                 />
             </div>
         </div>
