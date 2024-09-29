@@ -1,14 +1,18 @@
 import React from "react";
 import "./App.css";
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import PricingView from "./pages/PricingView/PricingView";
-import NavBar from "./components/NavBar/NavBar";
-// import SignUpView from "./screens/SignUpView/SignUpView";
+import ClientView from "./pages/ClientView/ClientView";
 
 function App() {
   return (
     <>
-      <PricingView/>
-      {/* <SignUpView /> */}
+      <BrowserRouter>
+        <Routes>
+          <Route path={'/'} Component={ClientView}/>
+          <Route path={'/Agents'} Component={PricingView}/>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

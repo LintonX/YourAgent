@@ -9,13 +9,14 @@ import {
   STANDARD_PRICE,
   PREMIUM_PRICE,
   FEATURES_CONTENT,
+  PRICING_VIEW_NAVBAR_ITEMS,
 } from "../../constants";
 import FeatureCard from "../../components/FeatureCard/FeatureCard";
 
 function PricingView() {
   return (
     <>
-      <NavBar />
+      <NavBar navBarItems={PRICING_VIEW_NAVBAR_ITEMS}/>
       <div className="pricing-view-layout">
         <div className="top-half">
           <div className="main-title-container">
