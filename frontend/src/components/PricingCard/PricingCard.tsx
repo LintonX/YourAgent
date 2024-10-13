@@ -14,21 +14,21 @@ function PricingCard({ price, title, briefDescription, description, GetStartedBu
   return (
     <div className='pricing-card'>
         <div className='pricing-card-top'>
-            <p id='card-title'>
+            <p className='card-header'>
                 {title}
             </p>
         </div>
-        <div>
-            <p id='brief-description'>
+        <div className='brief-description-container'>
+            <p className='brief-description'>
                 {briefDescription}
             </p>
         </div>
         <div className='pricing-card-middle'>
             <p>
-                ${price} <span id='per-month'>/mo</span>
+                ${price} <span className='per-month'>/mo</span>
             </p>
         </div>
-        <hr id='hr-line'/>
+        <hr className='hr-line'/>
         <div className='pricing-card-bottom'>
             {description}
         </div>

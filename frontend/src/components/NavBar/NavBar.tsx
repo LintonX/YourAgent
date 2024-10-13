@@ -9,6 +9,7 @@ function NavBar({ navBarItems }: { navBarItems: NavBarListItem[] }) {
     
   const scrollToSection = (sectionName: string) => {
     const section = document.getElementById(sectionName);
+    console.log(sectionName)
     console.log(section);
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
@@ -26,7 +27,7 @@ function NavBar({ navBarItems }: { navBarItems: NavBarListItem[] }) {
       <div className="nav-bar">
         <div className="nav-bar-left">
           <img
-            id="your-agent-logo"
+            className="your-agent-logo"
             src={YOUR_AGENT_SVG}
             alt="YourAgent logo"
             onClick={() => {
@@ -51,7 +52,7 @@ function NavBar({ navBarItems }: { navBarItems: NavBarListItem[] }) {
         <div className="nav-bar-right">
           <PrimaryButton
             text="Sign in"
-            className="btn secondary"
+            className="btn primary"
             onClick={() => {
               console.log("clicked");
             }}

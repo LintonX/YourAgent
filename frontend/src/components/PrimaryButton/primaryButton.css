@@ -1,29 +1,35 @@
 .btn.primary {
+  width: fit-content;
   border-radius: var(--main-border-radius);
-  height: 38px;
-  color: rgb(255, 255, 255);
-  background-color: var(--main-dark-green-color);
+  background-color: var(--primary-color);
+  color: white;
   -webkit-box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.12);
   -moz-box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.12);
   box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.12);
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
-.btn.primary:hover{
+.btn.primary:hover {
+  background-color: var(--quaternary-color);
   color: white;
-  background-color: black;
 }
+
+/* -------------------------------------------- */
 
 .btn.secondary {
+  width: fit-content;
   border-radius: var(--main-border-radius);
-  border: 1px solid var(--main-dark-green-color);;
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
+  background-color: white;
+  color: var(--quaternary-color);
   -webkit-box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.12);
   -moz-box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.12);
   box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.12);
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
-.btn.secondary:hover {
-  background-color: black;
+.btn.btn.secondary:hover {
+  background-color: var(--quaternary-color);
   color: white;
 }

@@ -2,7 +2,11 @@
 
 * {
   --main-border-radius: 15px;
-  --main-dark-green-color: #005249;
+  --primary-color: #00A6FB;
+  --secondary-color: #0582CA;
+  --tertiary-color: #006494;
+  --quaternary-color: #003554;
+  --quinary-color: #051923;
   margin: 0;
   font-family: 'Switzer', sans-serif;   
 }
@@ -10,4 +14,26 @@
 html {  
   scroll-behavior: smooth;  
   background: rgb(255, 255, 255);
+}
+
+@keyframes easeInBottomToTopAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes easeInRightToLeftAnimation {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }

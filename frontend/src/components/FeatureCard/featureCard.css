@@ -18,7 +18,7 @@
 }
 
 .feature-title {
-    color: var(--main-dark-green-color);
+    color: var(--secondary-color);
     align-items: center;
     display: inline;
     margin-left: 8px;
