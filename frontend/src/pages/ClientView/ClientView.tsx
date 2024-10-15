@@ -15,7 +15,8 @@ function ClientView() {
         <div className='row client-top-container' id='row client-top-container'>
           <div className='search-header-container'>
             <h1 className='search-header'>
-              Find a local <span style={{color:"var(--quaternary-color)"}}>expert</span> in an area below.
+              Where are you searching?{<br/>}
+              Find a local <span style={{color:"var(--quaternary-color)"}}>expert</span> in that area below.
             </h1>
           </div>
           <div className='search-container'>

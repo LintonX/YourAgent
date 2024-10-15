@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import "../../App.css";
 import "../LocationSearch/locationSearch.css";
-import { SEARCH_BUTTON_ICON } from "../../constants";
+import { SEARCH_BUTTON_ICON, SERVER } from "../../constants";
 
 type AutoCompleteProps = {
   suggestions: string[];
@@ -12,9 +12,8 @@ function LocationSearch({ suggestions }: AutoCompleteProps) {
   const [input, setInput] = useState<string>("");
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
-  //   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState<number>(0);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const userInput = e.target.value;
     setInput(userInput);
 
@@ -26,14 +25,26 @@ function LocationSearch({ suggestions }: AutoCompleteProps) {
 
     setFilteredSuggestions([...filtered]);
     setShowSuggestions(true);
-    // setActiveSuggestionIndex(0);
   };
 
-  const onClick = (suggestion: string) => {
+  const handleOnClick = (suggestion: string) => {
     setInput(suggestion);
     setFilteredSuggestions([]);
     setShowSuggestions(false);
+    const [place, state] = suggestion.split(',');
+    fetchCounty(place, state);
   };
+
+  const fetchCounty = async (place: string, state: string) => {
+    const response = await fetch(`${SERVER}locationInquiry?place=${place}&state=${state}`);
+    
+    if (response.status === 200) {
+        const county = await response.text();
+        console.log(county)
+    } else {
+        console.log("errorroroorr")
+    }
+  }
 
 
   const renderSuggestions = () => {
@@ -43,7 +54,7 @@ function LocationSearch({ suggestions }: AutoCompleteProps) {
           <ul className="suggestions">
             {filteredSuggestions.map((suggestion, index) => {
               return (
-                <li key={suggestion} onClick={() => onClick(suggestion)}>
+                <li key={suggestion} onClick={() => handleOnClick(suggestion)}>
                   {suggestion}
                 </li>
               );
@@ -63,7 +74,7 @@ function LocationSearch({ suggestions }: AutoCompleteProps) {
         <input
           className="search-bar"
           type="text"
-          onChange={onChange}
+          onChange={handleOnChange}
           value={input}
           placeholder="Search..."
         />
@@ -72,6 +83,7 @@ function LocationSearch({ suggestions }: AutoCompleteProps) {
             className="search-icon"
             src={SEARCH_BUTTON_ICON}
             alt="Search Icon"
+            onClick={() => handleOnClick(input)}
           />
         </button>
       </div>

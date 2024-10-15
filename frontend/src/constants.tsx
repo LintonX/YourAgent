@@ -9,6 +9,8 @@ import ClockIcon from '../src/assets/icons/time.svg'
 
 import SearchButtonIcon from '../src/assets/icons/icons8-search.svg'
 
+export const SERVER: string = "http://localhost:8080/";
+
 export const BASIC_PRICE: string = "19";
 export const STANDARD_PRICE: string = "28";
 export const PREMIUM_PRICE: string = "59";
