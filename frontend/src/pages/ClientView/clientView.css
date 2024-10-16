@@ -16,28 +16,13 @@
     background-repeat: no-repeat;
     justify-content: center;
     align-items: center;
+    height: 700px;
+    overflow: hidden;
 }
 
-.search-header-container {
-    text-align: center;
-}
-
-.search-header {
-    color: white;
-    margin-top: 250px;
-    margin-bottom: 80px;
-    font-size: 3rem;
-    font-weight: 800;
-    animation: easeInBottomToTopAnimation 0.6s ease-in forwards; 
-}
-
-.search-container {
+.dynamic-carousel-container {
     display: flex;
     justify-content: center;
-}
-
-.search-container > .autocomplete {
-    margin-bottom: 200px;
 }
 
 /* ---------------------------------------------------------- */

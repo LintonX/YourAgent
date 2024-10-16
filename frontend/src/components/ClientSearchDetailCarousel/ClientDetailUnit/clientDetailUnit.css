@@ -1,0 +1,50 @@
+.details-header {
+    color: white;
+    font-size: 3rem;
+    margin-bottom: 50px;
+    font-weight: 800;
+}
+
+.details-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.firstName-lastName-container {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 15px;
+}
+
+.email-phoneNumber-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-bottom: 20px;
+}
+
+.email-input, .phoneNumber-input {
+    width: 400px;
+}
+
+.email-input, .phoneNumber-input, .firstName-input, .lastName-input {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 3px;
+    border: 1px solid rgb(0, 0, 0);
+    margin: 5px;
+    outline: none;
+}
+
+.form > .btn.primary {
+    width: 400px;
+}
