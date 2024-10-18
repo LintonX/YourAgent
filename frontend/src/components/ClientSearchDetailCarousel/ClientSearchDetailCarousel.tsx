@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
-import ClientCongratsUnit from "./ClientCongratsUnit/ClientCongratsUnit";
+import ClientSubmitUnit from "./ClientSubmitUnit/ClientSubmitUnit";
 import ClientSearchUnit from "./ClientSearchUnit/ClientSearchUnit";
 import ClientDetailUnit from "./ClientDetailUnit/ClientDetailUnit";
 import ClientSwipeAnimation from "./ClientSwipeAnimation";
@@ -12,7 +12,9 @@ export type userInfo = {
   phoneNumber?: string;
 };
 
-type CountyContextType = {
+type ClientContextType = {
+  place: string;
+  setPlace: React.Dispatch<React.SetStateAction<string>>;
   county: string;
   setCounty: React.Dispatch<React.SetStateAction<string>>;
   userInfo: userInfo;
@@ -26,7 +28,9 @@ const defaultUserInfo = {
   phoneNumber: "",
 };
 
-export const CountyContext = createContext<CountyContextType>({
+export const ClientContext = createContext<ClientContextType>({
+  place: "",
+  setPlace: () => {},
   county: "",
   setCounty: () => {},
   userInfo: defaultUserInfo,
@@ -34,6 +38,7 @@ export const CountyContext = createContext<CountyContextType>({
 });
 
 function ClientSearchDetailCarousel() {
+  const [place, setPlace] = useState<string>("");
   const [county, setCounty] = useState<string>("");
   const [userInfo, setUserInfo] = useState<userInfo>(defaultUserInfo);
   const [currentComponent, setCurrentComponent] = useState(0);
@@ -46,13 +51,13 @@ function ClientSearchDetailCarousel() {
 
   useEffect(() => {
     if (userInfo !== defaultUserInfo) {
-        setCurrentComponent(2)
+      setCurrentComponent(2);
     }
-  }, [userInfo])
+  }, [userInfo]);
 
   return (
-    <CountyContext.Provider
-      value={{ county, setCounty, userInfo, setUserInfo }}
+    <ClientContext.Provider
+      value={{ place, setPlace, county, setCounty, userInfo, setUserInfo }}
     >
       <AnimatePresence mode="wait" initial={true}>
         {currentComponent === 0 && (
@@ -66,12 +71,12 @@ function ClientSearchDetailCarousel() {
           </ClientSwipeAnimation>
         )}
         {currentComponent === 2 && (
-          <ClientSwipeAnimation>
-            <ClientCongratsUnit></ClientCongratsUnit>
+          <ClientSwipeAnimation key={"submitted"}>
+            <ClientSubmitUnit />
           </ClientSwipeAnimation>
         )}
       </AnimatePresence>
-    </CountyContext.Provider>
+    </ClientContext.Provider>
   );
 }
 

@@ -1,11 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../../../App.css";
 import "./clientDetailUnit.css";
-import { CountyContext, userInfo } from "../ClientSearchDetailCarousel";
+import { ClientContext, userInfo } from "../ClientSearchDetailCarousel";
 import PrimaryButton from "../../PrimaryButton/PrimaryButton";
+import AIBubble from "../../AIBubble/AIBubble";
+import { SERVER } from "../../../constants";
 
 function ClientDetailUnit() {
-  const { county, setUserInfo } = useContext(CountyContext);
+  const { place, setUserInfo } = useContext(ClientContext);
+  const [quickFact, setQuickFact] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [formData, setFormData] = useState<userInfo>({
     firstName: "",
@@ -24,11 +28,33 @@ function ClientDetailUnit() {
     setUserInfo(formData);
   };
 
+  useEffect(() => {
+    const callQuickFact = async () => { 
+      try {
+        if (place) {
+          setIsLoading(true);
+          const response = await fetch(`${SERVER}locationFact?place=${place}`);
+
+          if (response.ok) { 
+            const content = await response.text()
+            setQuickFact(content);
+            setIsLoading(false)
+          } else {
+            console.error(`Failed to fetch fact: ${response.status} - ${response.statusText}`);
+          }
+        }
+      } catch (error) {
+        console.error("Network or server error occurred:", error);
+      }
+    };
+  
+    callQuickFact(); 
+  }, [place]);
+
   return (
     <div>
       <h1 className="details-header">
-        How should they contact{" "}
-        <span style={{ color: "var(--quaternary-color)" }}>you</span>?
+        How should they contact&nbsp;<span style={{ color: "var(--quaternary-color)" }}>you</span>?
       </h1>
       <div className="details-container">
         <form
@@ -81,9 +107,11 @@ function ClientDetailUnit() {
             />
           </div>
         </form>
+        <div className="ai-bubble-container-details">
+          {!isLoading && <AIBubble quickFact={quickFact || "Loading..."}/>}
+        </div>
       </div>
-      here
-      {county}
+      {/* {county} */}
     </div>
   );
 }

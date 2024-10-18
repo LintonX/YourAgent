@@ -1,0 +1,14 @@
+.submit-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.submit-header {
+    color: white;
+    font-size: 3rem;
+    font-weight: 800;
+}    
+

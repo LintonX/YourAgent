@@ -35,7 +35,7 @@
     text-align: center;
     justify-content: center;
     align-items: center;
-    /* animation: easeInBottomToTopAnimation 0.6s ease-in forwards;  */
+    animation: easeInBottomToTopAnimation 0.6s ease-in forwards; 
 }
 
 .pricing-right-container {
@@ -45,7 +45,7 @@
     text-align: center;
     justify-content: center;
     align-items: center;
-    /* animation: easeInRightToLeftAnimation 0.6s ease-in forwards; */
+    animation: easeInRightToLeftAnimation 0.6s ease-in forwards;
 }
 
 .main-header {

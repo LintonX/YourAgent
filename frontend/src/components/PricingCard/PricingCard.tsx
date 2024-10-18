@@ -4,13 +4,14 @@ import './pricingCard.css'
 
 type PricingCardProps = {
     price: string;
+    priceComment?: React.ReactNode;
     title: string;
     briefDescription: string;
     description: React.ReactNode;
     GetStartedButton: React.ReactNode;
 };
 
-function PricingCard({ price, title, briefDescription, description, GetStartedButton }: PricingCardProps) {
+function PricingCard({ price, priceComment, title, briefDescription, description, GetStartedButton }: PricingCardProps) {
   return (
     <div className='pricing-card'>
         <div className='pricing-card-top'>
@@ -26,6 +27,7 @@ function PricingCard({ price, title, briefDescription, description, GetStartedBu
         <div className='pricing-card-middle'>
             <p>
                 ${price} <span className='per-month'>/mo</span>
+                {priceComment}
             </p>
         </div>
         <hr className='hr-line'/>

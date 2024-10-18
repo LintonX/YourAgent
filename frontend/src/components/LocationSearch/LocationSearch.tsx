@@ -3,14 +3,14 @@ import { useState } from "react";
 import "../../App.css";
 import "../LocationSearch/locationSearch.css";
 import { SEARCH_BUTTON_ICON, SERVER } from "../../constants";
-import { CountyContext } from "../ClientSearchDetailCarousel/ClientSearchDetailCarousel";
+import { ClientContext } from "../ClientSearchDetailCarousel/ClientSearchDetailCarousel";
 
 type AutoCompleteProps = {
   suggestions: string[];
 };
 
 function LocationSearch({ suggestions }: AutoCompleteProps) {
-  const { setCounty } = useContext(CountyContext);
+  const { setCounty, setPlace } = useContext(ClientContext);
   const [input, setInput] = useState<string>("");
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
@@ -35,6 +35,7 @@ function LocationSearch({ suggestions }: AutoCompleteProps) {
     setShowSuggestions(false);
     const [place, state] = suggestion.split(",");
     fetchCounty(place, state);
+    setPlace(suggestion);
   };
 
   const fetchCounty = async (place: string, state: string) => {
@@ -42,9 +43,8 @@ function LocationSearch({ suggestions }: AutoCompleteProps) {
       `${SERVER}locationInquiry?place=${place}&state=${state}`
     );
 
-    if (response.status === 200) {
+    if (response.ok) {
       const countyFound = await response.text();
-      console.log(countyFound);
       setCounty(countyFound)
     } else {
       console.log("errorroroorr");

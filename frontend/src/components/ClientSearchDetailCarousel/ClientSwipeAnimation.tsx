@@ -12,9 +12,9 @@ function ClientSwipeAnimation({ children }: PropsWithChildren) {
   }, []);
 
   const animation = {
-    initial: { opacity: 0, x: windowWidth },
-    animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -windowWidth },
+    initial: { opacity: 0, x: windowWidth, filter: "blur(5px)" },
+    animate: { opacity: 1, x: 0, filter: "blur(0px)" },
+    exit: { opacity: 0, x: -windowWidth, filter: "blur(5px)" },
   };
 
   return (

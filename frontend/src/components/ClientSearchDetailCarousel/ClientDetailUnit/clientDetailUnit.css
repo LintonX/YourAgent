@@ -1,15 +1,18 @@
-.details-header {
-    color: white;
-    font-size: 3rem;
-    margin-bottom: 50px;
-    font-weight: 800;
-}
-
 .details-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.details-header {
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+    margin-top: 90px;
+    margin-bottom: 50px;
+    font-weight: 800;
 }
 
 .form {
@@ -47,4 +50,12 @@
 
 .form > .btn.primary {
     width: 400px;
+}
+
+.ai-bubble-container-details {
+    display: flex;
+    width: 100vw;
+    height: 50px;
+    justify-content: center;
+    margin-bottom: 40px;
 }
