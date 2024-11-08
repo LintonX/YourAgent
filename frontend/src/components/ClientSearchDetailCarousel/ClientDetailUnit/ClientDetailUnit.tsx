@@ -1,15 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import "../../../App.css";
 import "./clientDetailUnit.css";
 import { ClientContext, userInfo } from "../ClientSearchDetailCarousel";
 import PrimaryButton from "../../PrimaryButton/PrimaryButton";
 import AIBubble from "../../AIBubble/AIBubble";
-import { SERVER } from "../../../constants";
 
 function ClientDetailUnit() {
-  const { place, setUserInfo } = useContext(ClientContext);
-  const [quickFact, setQuickFact] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { quickFact, setUserInfo } = useContext(ClientContext);
 
   const [formData, setFormData] = useState<userInfo>({
     firstName: "",
@@ -25,36 +22,15 @@ function ClientDetailUnit() {
 
   const handleSubmit = () => {
     console.log(formData);
-    setUserInfo(formData);
+    if (formData.firstName && formData.email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
+      setUserInfo(formData);
+    }
   };
-
-  useEffect(() => {
-    const callQuickFact = async () => { 
-      try {
-        if (place) {
-          setIsLoading(true);
-          const response = await fetch(`${SERVER}locationFact?place=${place}`);
-
-          if (response.ok) { 
-            const content = await response.text()
-            setQuickFact(content);
-            setIsLoading(false)
-          } else {
-            console.error(`Failed to fetch fact: ${response.status} - ${response.statusText}`);
-          }
-        }
-      } catch (error) {
-        console.error("Network or server error occurred:", error);
-      }
-    };
-  
-    callQuickFact(); 
-  }, [place]);
 
   return (
     <div>
       <h1 className="details-header">
-        How should they contact&nbsp;<span style={{ color: "var(--quaternary-color)" }}>you</span>?
+        How should your agent contact&nbsp;<span style={{ color: "var(--quaternary-color)" }}>you</span>?
       </h1>
       <div className="details-container">
         <form
@@ -69,6 +45,7 @@ function ClientDetailUnit() {
               type="text"
               name="firstName"
               placeholder="First Name"
+              required
               value={formData.firstName}
               onChange={handleChange}
             />
@@ -87,6 +64,7 @@ function ClientDetailUnit() {
               type="email"
               name="email"
               placeholder="Email"
+              required
               value={formData.email}
               onChange={handleChange}
             />
@@ -108,7 +86,7 @@ function ClientDetailUnit() {
           </div>
         </form>
         <div className="ai-bubble-container-details">
-          {!isLoading && <AIBubble quickFact={quickFact || "Loading..."}/>}
+          {quickFact !== "" && <AIBubble quickFact={quickFact || "Loading..."}/>}
         </div>
       </div>
       {/* {county} */}

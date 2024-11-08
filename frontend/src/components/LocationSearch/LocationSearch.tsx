@@ -10,7 +10,7 @@ type AutoCompleteProps = {
 };
 
 function LocationSearch({ suggestions }: AutoCompleteProps) {
-  const { setCounty, setPlace } = useContext(ClientContext);
+  const { setCounty, setPlace, setQuickFact } = useContext(ClientContext);
   const [input, setInput] = useState<string>("");
   const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
@@ -35,19 +35,43 @@ function LocationSearch({ suggestions }: AutoCompleteProps) {
     setShowSuggestions(false);
     const [place, state] = suggestion.split(",");
     fetchCounty(place, state);
+    fetchQuickFact(suggestion);
     setPlace(suggestion);
   };
 
   const fetchCounty = async (place: string, state: string) => {
-    const response = await fetch(
-      `${SERVER}locationInquiry?place=${place}&state=${state}`
-    );
+    try {
+      const response = await fetch(
+        `${SERVER}locationInquiry?place=${place}&state=${state}`
+      );
 
-    if (response.ok) {
-      const countyFound = await response.text();
-      setCounty(countyFound)
-    } else {
-      console.log("errorroroorr");
+      if (response.ok) {
+        const countyFound = await response.text();
+        setCounty(countyFound);
+      } else {
+        console.log(`Failed to fetch county: ${response.status} - ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Network or server error occurred:", error);
+    }
+  };
+
+  const fetchQuickFact = async (place: string) => {
+    try {
+      const response = await fetch(
+        `${SERVER}locationFact?place=${place}`
+      );
+
+      if (response.ok) {
+        const content = await response.text();
+        setQuickFact(content);
+      } else {
+        console.error(
+          `Failed to fetch fact: ${response.status} - ${response.statusText}`
+        );
+      }
+    } catch (error) {
+      console.error("Network or server error occurred:", error);
     }
   };
 
@@ -80,7 +104,7 @@ function LocationSearch({ suggestions }: AutoCompleteProps) {
           type="text"
           onChange={handleOnChange}
           value={input}
-          placeholder="Search..."
+          placeholder="Enter a town or city and state..."
         />
         <button className="search-icon-button">
           <img

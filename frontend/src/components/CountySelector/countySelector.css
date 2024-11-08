@@ -1,0 +1,67 @@
+.county-selector-container {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+}
+
+.county-selector-box {
+    display: flex;
+    justify-content: space-evenly;
+    border-radius: var(--main-border-radius);
+    height: 400px;
+    width: fit-content;
+    -webkit-box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.20);
+    -moz-box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.20);
+    box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.20);
+    background-color: #00A6FB;
+}
+
+.total-county-box > h3, .selected-counties-box > h3 {
+    display: flex;
+    justify-content: center;
+    color: rgb(255, 255, 255);
+    font-size: 1.7rem;
+    font-weight: 800;
+    margin-top: 20px;
+}
+
+.selection-box:focus {
+    border: none;
+    width: 300px;
+}
+
+.checkbox-list-selected, .checkbox-list-unselected{
+    flex: 1;
+    border: 1px solid black;
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 77%;
+    width: 380px;
+    margin: 20px;
+    background-color: white;
+}
+
+.checkbox-item-box {
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.checkbox-item-box:hover {
+    display: flex;
+    align-items: center;
+    background-color: rgb(236, 236, 236);
+}
+
+.label-style {
+    font-size: 1.3rem;
+}  
+
+.checkbox-style {
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+}

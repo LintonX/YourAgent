@@ -20,7 +20,7 @@ function AIBubble({ quickFact }: AIBubbleProps) {
       initial="initial"
       animate="animate"
       exit="exit"
-      transition={{ duration: 1.1, ease:"easeIn", delay: .6 }}
+      transition={{ duration: 1.1, ease:"easeIn", delay: .1 }}
     >
         <div className='ai-bubble-container'>
             <p className='quick-fact-text'>

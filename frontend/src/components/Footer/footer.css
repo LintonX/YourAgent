@@ -1,0 +1,66 @@
+.footer-container {
+    display: flex;
+    width: 100vw;
+}
+
+.footer-left-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    background-color: black;
+    padding: 20px 0px 50px 70px;
+}
+
+.footer-left-container > .youragent-svg-logo {
+    fill: white;
+    transform: scale(0.8) translateX(-13%);
+}
+
+.footer-right-container {
+    padding-left: 100px;
+    flex: 2;
+    background-color: black; 
+    display: flex;
+    gap: 100px;
+}
+
+.footer-content-column {
+    color: white;
+    margin-top: 40px;
+}
+
+.footer-content-column > h3 {
+    font-weight: 600;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+.footer-content-column > ul {
+    list-style: none;
+    padding-left: 0px;
+    font-weight: 400;
+}
+
+li {
+    cursor: pointer;
+}
+
+.footer-link {
+    color: white;
+}
+
+.footer-link:link { 
+    text-decoration: none; 
+} 
+
+.footer-link:visited { 
+    text-decoration: none; 
+} 
+
+.footer-link:hover { 
+    text-decoration: none; 
+} 
+
+.footer-link:active { 
+    text-decoration: none; 
+}

@@ -19,6 +19,8 @@ type ClientContextType = {
   setCounty: React.Dispatch<React.SetStateAction<string>>;
   userInfo: userInfo;
   setUserInfo: React.Dispatch<React.SetStateAction<userInfo>>;
+  quickFact: string;
+  setQuickFact: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const defaultUserInfo = {
@@ -35,6 +37,8 @@ export const ClientContext = createContext<ClientContextType>({
   setCounty: () => {},
   userInfo: defaultUserInfo,
   setUserInfo: () => {},
+  quickFact: "",
+  setQuickFact: () => {}
 });
 
 function ClientSearchDetailCarousel() {
@@ -42,6 +46,7 @@ function ClientSearchDetailCarousel() {
   const [county, setCounty] = useState<string>("");
   const [userInfo, setUserInfo] = useState<userInfo>(defaultUserInfo);
   const [currentComponent, setCurrentComponent] = useState(0);
+  const [quickFact, setQuickFact] = useState<string>("");
 
   useEffect(() => {
     if (county) {
@@ -57,7 +62,7 @@ function ClientSearchDetailCarousel() {
 
   return (
     <ClientContext.Provider
-      value={{ place, setPlace, county, setCounty, userInfo, setUserInfo }}
+      value={{ place, setPlace, county, setCounty, userInfo, setUserInfo, quickFact, setQuickFact }}
     >
       <AnimatePresence mode="wait" initial={true}>
         {currentComponent === 0 && (
@@ -71,7 +76,7 @@ function ClientSearchDetailCarousel() {
           </ClientSwipeAnimation>
         )}
         {currentComponent === 2 && (
-          <ClientSwipeAnimation key={"submitted"}>
+          <ClientSwipeAnimation key="submitted">
             <ClientSubmitUnit />
           </ClientSwipeAnimation>
         )}

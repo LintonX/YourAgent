@@ -13,6 +13,7 @@ import {
 } from "../../constants";
 import FeatureCard from "../../components/FeatureCard/FeatureCard";
 import pricingViewHero from "../../assets/pricing-view-hero.png";
+import Footer from "../../components/Footer/Footer";
 
 function PricingView() {
 
@@ -47,7 +48,7 @@ function PricingView() {
           </div>
         </div>
         <div className="row pricing-middle-container" id="row pricing-middle-container">
-          <h3 className="pricing-features-header">How It Works</h3>
+          <h3 className="pricing-features-header">How It Works.</h3>
           <div className="pricing-features-container">
             <div className="features-grid">
               {FEATURES_CONTENT.map((feature, index) => (
@@ -80,15 +81,6 @@ function PricingView() {
                     state
                   </>
                 }
-                GetStartedButton={
-                  <PrimaryButton
-                    text="Get Started"
-                    className="btn primary"
-                    onClick={() => {
-                      console.log("clicked");
-                    }}
-                  />
-                }
               />
               <PricingCard
                 price={STANDARD_PRICE}
@@ -100,18 +92,10 @@ function PricingView() {
                     state
                   </>
                 }
-                GetStartedButton={
-                  <PrimaryButton
-                    text="Get Started"
-                    className="btn primary"
-                    onClick={() => {
-                      console.log("clicked");
-                    }}
-                  />
-                }
               />
               <PricingCard
                 price={PREMIUM_PRICE}
+                optionalPrice={"68"}
                 title="Premium"
                 briefDescription="For agents or teams managing larger volumes."
                 description={
@@ -120,20 +104,12 @@ function PricingView() {
                     state
                   </>
                 }
-                GetStartedButton={
-                  <PrimaryButton
-                    text="Get Started"
-                    className="btn primary"
-                    onClick={() => {
-                      console.log("clicked");
-                    }}
-                  />
-                }
               />
             </div>
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

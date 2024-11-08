@@ -1,5 +1,3 @@
-import YourAgentSvg from '../src/assets/your-agent.svg'
-
 import CashIcon from '../src/assets/icons/Refund.svg'
 import LocationIcon from '../src/assets/icons/location.svg'
 import NotiIcon from '../src/assets/icons/notification.svg'
@@ -15,6 +13,17 @@ export const BASIC_PRICE: string = "19";
 export const STANDARD_PRICE: string = "28";
 export const PREMIUM_PRICE: string = "59";
 
+export const PRICE_TIER_MAP = {
+    [BASIC_PRICE]: "basic",
+    [STANDARD_PRICE]: "standard",
+    [PREMIUM_PRICE]: "premium",
+  };
+
+export const COUNTY_QUANTITY_MAP: { [key: string]: number } = {
+    "basic": 2,
+    "standard": 3,
+    "premium": 7,
+  };
 
 export const COUNTY_DATA_PATH: string = '../../Data/county_data.json'
 
@@ -62,9 +71,6 @@ export const FEATURES_CONTENT: Array<FeatureContent> = [
         icon: ClockIcon
     },
 ];
-
-export const YOUR_AGENT_SVG: string = YourAgentSvg;
-
 
 export type NavBarListItem = {
     label: string,

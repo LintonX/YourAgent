@@ -8,6 +8,7 @@ import {
 } from "../../constants";
 import ClientFeatureCard from "../../components/ClientFeatureCard/ClientFeatureCard";
 import ClientSearchDetailCarousel from "../../components/ClientSearchDetailCarousel/ClientSearchDetailCarousel";
+import Footer from "../../components/Footer/Footer";
 
 function ClientView() {
   return (
@@ -24,7 +25,7 @@ function ClientView() {
           id="row client-bottom-container"
         >
           <div className="client-features-container">
-            <h1 className="client-features-header">How It Works</h1>
+            <h1 className="client-features-header">How It Works.</h1>
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
               {CLIENT_VIEW_FEATURES_CONTENT.map((item, index) => (
                 <ClientFeatureCard
@@ -37,6 +38,7 @@ function ClientView() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

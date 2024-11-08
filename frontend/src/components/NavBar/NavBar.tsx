@@ -1,9 +1,10 @@
 import React from "react";
 import "../../App.css";
 import "../NavBar/navBar.css";
-import { YOUR_AGENT_SVG, NavBarListItem } from "../../constants";
+import { NavBarListItem } from "../../constants";
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
 import { useNavigate } from "react-router-dom";
+import YourAgentSvg from "../../assets/YourAgentSvg";
 
 function NavBar({ navBarItems }: { navBarItems: NavBarListItem[] }) {
     
@@ -11,6 +12,7 @@ function NavBar({ navBarItems }: { navBarItems: NavBarListItem[] }) {
     const section = document.getElementById(sectionName);
     console.log(sectionName)
     console.log(section);
+
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
     }
@@ -26,14 +28,7 @@ function NavBar({ navBarItems }: { navBarItems: NavBarListItem[] }) {
     <div className="nav-bar-container">
       <div className="nav-bar">
         <div className="nav-bar-left">
-          <img
-            className="your-agent-logo"
-            src={YOUR_AGENT_SVG}
-            alt="YourAgent logo"
-            onClick={() => {
-              document.documentElement.scrollTop = 0;
-            }}
-          />
+          <YourAgentSvg/>
           <ul>
             {navBarItems.map((item, index) => (
               <li

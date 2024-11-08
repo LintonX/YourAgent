@@ -48,15 +48,18 @@
     transform: scale(1.06);
 }
 
-.your-agent-logo {
+.nav-bar-left > .youragent-svg-logo {
+    fill: black;
     cursor: pointer;
     width: 140px;
     margin-right: 70px;
     opacity: 80%;
     transition: transform 0.3s ease-in-out;
+    z-index: inherit;
 }
 
-.your-agent-logo:hover {
+.nav-bar-left > .youragent-svg-logo:hover {
+    fill: black;
     cursor: pointer;
     transform: scale(1.04);
 }
