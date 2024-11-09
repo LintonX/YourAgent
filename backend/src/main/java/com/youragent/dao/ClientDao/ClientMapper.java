@@ -1,4 +1,4 @@
-package com.youragent.dao.mapper;
+package com.youragent.dao.ClientDao;
 
 import com.youragent.model.Client;
 import org.springframework.jdbc.core.RowMapper;

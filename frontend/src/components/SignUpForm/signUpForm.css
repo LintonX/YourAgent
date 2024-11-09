@@ -1,0 +1,30 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+  
+p, span {
+    color: rgb(123, 123, 123);
+}
+
+.form-object {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container > .form-object > input {
+    border: solid 1px rgb(173, 173, 173);
+    border-radius: 5px;
+    padding: 7px 12px 7px 12px;
+}
+
+.form-container > .form-object > input:focus {
+    border: solid 1px rgb(19, 19, 19);
+    outline: none;
+}
+
+.radio-btn-container {
+    text-align: left;
+    display: inline;
+    justify-content: center;
+}

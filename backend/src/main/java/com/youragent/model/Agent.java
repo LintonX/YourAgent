@@ -1,16 +1,15 @@
 package com.youragent.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
+@Builder
 public class Agent {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private Long id;
+    private long id;
 
     private String firstName;
 
@@ -20,7 +19,13 @@ public class Agent {
 
     private String phoneNumber;
 
-    private Boolean hasAcces;
+    private boolean hasAcces;
 
-    private String tier;
+    private AgentTier tier;
+
+    private String selectedState;
+
+    private List<String> selectedCounties;
+
+    private List<Client> clients;
 }

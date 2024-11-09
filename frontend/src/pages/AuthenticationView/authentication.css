@@ -1,0 +1,12 @@
+.outer-container {
+    display: flex;
+    justify-content: center;
+}
+
+.main-container {
+    display: flex;
+    width: 450px;
+    justify-content: center;
+    flex-direction: column;
+    margin: 200px;
+}

@@ -1,4 +1,6 @@
 package com.youragent.service.aiservice;
 
-public class AiService {
+public interface AIService {
+
+    String processAIQuickFact(String location);
 }

@@ -1,4 +1,10 @@
 package com.youragent.service.clientservice;
 
-public class ClientService {
+import com.youragent.model.Client;
+
+public interface ClientService {
+
+    boolean saveAndAssignClient(Client client);
+
+    Long getNextAgentInCounty(String state, String county);
 }

@@ -1,30 +1,24 @@
-package com.youragent.dao;
+package com.youragent.dao.ClientDao;
 
+import com.youragent.dao.Dao;
 import com.youragent.dao.DaoUtils.DaoUtils;
 import com.youragent.dao.DaoUtils.SqlQueryConstants;
-import com.youragent.dao.mapper.ClientMapper;
 import com.youragent.model.Client;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Types;
 import java.util.*;
 
+import static com.youragent.dao.DaoUtils.ClientColumnConstants.*;
+
 @Repository
 @Slf4j
 public class ClientDaoImpl implements Dao<Client> {
-
-    private static final String assignedAgentId = "id_of_agent";
-    private static final String firstName = "first_name";
-    private static final String lastName = "last_name";
-    private static final String phoneNumber = "phone_number";
-    private static final String email = "email";
-    private static final String searchedState = "searched_state";
-    private static final String searchedPlace = "searched_place";
-    private static final String searchedCounty = "searched_county";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -37,7 +31,7 @@ public class ClientDaoImpl implements Dao<Client> {
     }
 
     @Override
-    public Long save(@NonNull final Client client) {
+    public Long save(@NonNull final Client client) throws DataAccessException {
 
         log.info("Attempting to save {} into client table in database", client);
 
@@ -71,7 +65,7 @@ public class ClientDaoImpl implements Dao<Client> {
     }
 
     @Override
-    public Optional<Client> get(final long clientId) {
+    public Client get(final long clientId) throws DataAccessException {
 
         log.info("Attempting to get {} from client table in database", clientId);
 
@@ -87,15 +81,16 @@ public class ClientDaoImpl implements Dao<Client> {
                             SqlQueryConstants.CLIENT_GET_SQL_QUERY,
                             new Object[]{clientId},
                             new int[]{Types.BIGINT},
-                            clientMapper)
+                            clientMapper),
+                    "Failed to retrieve client. Client must not be null"
             );
 
         } catch (DataAccessException e) {
             log.error("No client found with id: {}", clientId);
-            throw new RuntimeException("Client not found", e);
+            throw new DataRetrievalFailureException("Client not found", e);
         }
 
-        return Optional.of(client);
+        return client;
     }
 
     @Override
@@ -109,7 +104,7 @@ public class ClientDaoImpl implements Dao<Client> {
         arg = change column value to this arg
      */
     @Override
-    public void update(final long clientId, String column, Object arg) {
+    public void update(final long clientId, String column, Object arg) throws DataAccessException {
 
         log.info("Attempting to update client: {}", clientId);
 
@@ -127,15 +122,18 @@ public class ClientDaoImpl implements Dao<Client> {
                     argTypes
             );
         } catch (Exception e) {
-            log.info("Did not successfully update client with id = {}", clientId);
-            throw new RuntimeException("Did not update client", e);
+            log.info("Did not update client with id = {}, column = {}, arg = {}", clientId, column, arg);
+            throw new DataRetrievalFailureException(
+                    String.format("Did not update client with id = %s, column = %s, arg = %s", clientId, column, arg),
+                    e
+            );
         }
 
         log.info("Successfully updated client with id = {}", clientId);
     }
 
     @Override
-    public void delete(@NonNull final long id) {
+    public void delete(final long id) {
 
     }
 }

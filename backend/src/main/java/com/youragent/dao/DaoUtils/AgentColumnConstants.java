@@ -1,4 +1,4 @@
-package com.youragent.dao.AgentDao;
+package com.youragent.dao.DaoUtils;
 
 public class AgentColumnConstants {
 

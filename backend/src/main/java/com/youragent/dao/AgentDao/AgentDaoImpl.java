@@ -1,14 +1,17 @@
-package com.youragent.dao;
+package com.youragent.dao.AgentDao;
 
+import com.youragent.dao.Dao;
 import com.youragent.dao.DaoUtils.DaoUtils;
 import com.youragent.dao.DaoUtils.SqlQueryConstants;
-import com.youragent.dao.mapper.AgentMapper;
 import com.youragent.model.Agent;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.datasource.lookup.DataSourceLookupFailureException;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
@@ -17,20 +20,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.youragent.dao.DaoUtils.AgentColumnConstants.*;
+
 @Repository
 @Slf4j
 public class AgentDaoImpl implements Dao<Agent> {
-
-    private static final String firstName = "first_name";
-    private static final String lastName = "last_name";
-    private static final String phoneNumber = "phone_number";
-    private static final String email = "email";
-    private static final String hasAccess = "has_access";
-    private static final String tier = "tier";
-    private static final String selectedState = "selected_state";
-    private static final String selectedCounties = "selected_counties";
-    private static final String clientIds = "client_ids";
-    private static final String timeInserted = "time_inserted";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -47,7 +41,7 @@ public class AgentDaoImpl implements Dao<Agent> {
     }
 
     @Override
-    public Long save(@NonNull final Agent agent) {
+    public Long save(@NonNull final Agent agent) throws DataAccessException {
 
         log.info("Attempting to save {} into agent table in database", agent);
 
@@ -83,7 +77,7 @@ public class AgentDaoImpl implements Dao<Agent> {
     }
 
     @Override
-    public Optional<Agent> get(final long agentId) {
+    public Agent get(final long agentId) throws DataAccessException {
 
         log.info("Attempting to get agent with id = {} from database", agentId);
 
@@ -92,21 +86,25 @@ public class AgentDaoImpl implements Dao<Agent> {
         try {
             log.info("query: {}, where ? = {}", SqlQueryConstants.AGENT_GET_SQL_QUERY, agentId);
 
+            final Object[] args = new Object[]{agentId};
+            final int[] argTypes = new int[]{Types.BIGINT};
+
             agent = Objects.requireNonNull(
                     jdbcTemplate.query(
                             SqlQueryConstants.AGENT_GET_SQL_QUERY,
                             new Object[]{agentId},
                             new int[]{Types.BIGINT},
                             (ResultSetExtractor<Agent>) agentMapper
-                    )
+                    ),
+                    "Failed to retrieve agent. Agent must not be null."
             );
 
-        } catch (DataAccessException e) {
+        } catch (DataAccessException | NullPointerException e) {
             log.error("No agent found with id = {}", agentId);
-            throw new RuntimeException("Agent not found", e);
+            throw new DataRetrievalFailureException("Agent not found", e);
         }
 
-        return Optional.of(agent);
+        return agent;
     }
 
     @Override
@@ -115,15 +113,15 @@ public class AgentDaoImpl implements Dao<Agent> {
     }
 
     @Override
-    public void update(final long agentId, String column, Object arg) {
+    public void update(final long agentId, String column, Object arg) throws DataAccessException {
         log.info("Attempting to update agent with id = {}", agentId);
 
         final String constructedQuery = DaoUtils.updateQueryBuilder(SqlQueryConstants.AGENT_UPDATE_SQL_QUERY, column);
 
         log.info("query: {}", constructedQuery);
 
-        Object[] args = new Object[]{arg, agentId};
-        int[] argTypes = new int[]{DaoUtils.getSqlType(arg), DaoUtils.getSqlType(agentId)};
+        final Object[] args = new Object[]{arg, agentId};
+        final int[] argTypes = new int[]{DaoUtils.getSqlType(arg), DaoUtils.getSqlType(agentId)};
 
         try {
             jdbcTemplate.update(
@@ -131,16 +129,19 @@ public class AgentDaoImpl implements Dao<Agent> {
                     args,
                     argTypes
             );
-        } catch (Exception e) {
-            log.info("Did not successfully update agent with id = {}", agentId);
-            throw new RuntimeException("Did not update agent", e);
+        } catch (DataAccessException e) {
+            log.info("Did not update agent with id = {}, column = {}, arg = {}", agentId, column, arg);
+            throw new DataRetrievalFailureException(
+                    String.format("Did not update agent with id = %s, column = %s, arg = %s", agentId, column, arg),
+                    e
+            );
         }
 
         log.info("Successfully updated agent with id = {}", agentId);
     }
 
     @Override
-    public void delete(@NonNull final long agentId) {
+    public void delete(final long agentId) throws DataAccessException {
 
         log.info("Attempting to delete agent with id = {}", agentId);
 
@@ -150,8 +151,42 @@ public class AgentDaoImpl implements Dao<Agent> {
 
         if (rowsUpdated == 0) {
             log.error("No agent deleted with id: {}", agentId);
-            throw new RuntimeException("Agent not deleted");
+            throw new DataSourceLookupFailureException("Agent not deleted");
         }
+    }
+
+    public Optional<Long> getNextAgentInCounty(@NonNull final String county, @NonNull final String state) {
+
+        log.info("Attempting to get the next agent from {}, {} agent queue", county, state);
+
+        Long agentId;
+
+        try {
+            log.info("query: {}, where county = {} and state = {}",
+                    SqlQueryConstants.AGENT_GET_NEXT_AGENT_FROM_COUNTY_QUEUE_SQL_QUERY, county, state);
+
+            final Object[] args = new Object[]{county, state};
+            final int[] argTypes = new int[]{Types.VARCHAR, Types.VARCHAR};
+
+            agentId = Objects.requireNonNull(
+                    jdbcTemplate.queryForObject(
+                            SqlQueryConstants.AGENT_GET_NEXT_AGENT_FROM_COUNTY_QUEUE_SQL_QUERY,
+                            args,
+                            argTypes,
+                            Long.class
+                    )
+            );
+
+        } catch (DataAccessException | NullPointerException e) {
+            log.error("No agents found in county = {}, state = {}", county, state);
+            throw new DataRetrievalFailureException("Agents not found", e);
+        }
+
+        return Optional.of(agentId);
+    }
+
+    public Timestamp getCurrentTimestamp() {
+        return timestamp;
     }
 
     public void printAgentTable() {

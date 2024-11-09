@@ -29,7 +29,7 @@ public class GeoLocationController {
     @GetMapping(path = "/locationInquiry")
     public ResponseEntity<?> processLocationInquiry(@RequestParam("place") @NonNull String place,
                                                     @RequestParam("state") @NonNull String state) {
-        log.info(String.format("GET: processLocationInquiry place=%s, state=%s", place, state));
+        log.info("GET: processLocationInquiry place={}, state={}", place, state);
 
         final String county = geoLocationService.getLocationCounty(place, state);
 

@@ -1,6 +1,10 @@
 package com.youragent.service.restservice;
 
+import org.springframework.http.HttpHeaders;
+
 public interface RestService<T> {
 
-    public T getRequest(String uri, Class<T> responseType);
+    T getRequest(String uri, Class<T> responseType);
+
+    T postRequest(String uri, HttpHeaders headers, String body, Class<T> responseType);
 }

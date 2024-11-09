@@ -23,7 +23,7 @@ public class AIController {
 
     @GetMapping(path = "/locationFact")
     public ResponseEntity<?> getQuickAIFact(@RequestParam("place") @NonNull String place) {
-        log.info(String.format("GET: getQuickAIFact place=%s,", place));
+        log.info("GET: getQuickAIFact place={},", place);
 
         final String quickFact = aiService.processAIQuickFact(place);
 

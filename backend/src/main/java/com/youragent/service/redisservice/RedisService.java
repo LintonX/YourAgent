@@ -6,7 +6,7 @@ import java.util.concurrent.CompletableFuture;
 
 public interface RedisService<K, V> {
 
-    public CompletableFuture<V> getValue(@NonNull final K key);
+    CompletableFuture<V> getValue(@NonNull final K key);
 
-    public CompletableFuture<Void> setValue(@NonNull final K key, @NonNull final V value);
+    CompletableFuture<Void> setValue(@NonNull final K key, @NonNull final V value);
 }

@@ -49,7 +49,7 @@ public class GeoLocationServiceImpl implements GeoLocationService {
                 // - process county lookup to OSM
                 // - store retrieved county in redis db as CityState:County
                 JsonNode jsonNode = restService.getRequest(
-                        String.format(Constants.NOMINATIM_OSM_URI, cityState.getPlace(), cityState.getState()),
+                        String.format(Constants.NOMINATIM_OSM_URI, cleanInput(place), cleanInput(state)),
                         JsonNode.class
                 );
 
@@ -74,6 +74,17 @@ public class GeoLocationServiceImpl implements GeoLocationService {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    private String cleanInput(@NonNull String place) {
+
+        String placeBeingScrubbed = place;
+
+        if (placeBeingScrubbed.contains("-")) {
+            placeBeingScrubbed = placeBeingScrubbed.substring(0, place.indexOf("-"));
+        }
+
+        return placeBeingScrubbed.replace(" ", "_").trim();
     }
 
 }

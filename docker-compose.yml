@@ -1,0 +1,32 @@
+version: '2.30.2'
+
+services:
+  frontend:
+    image: my_node_js_server_image
+    container_name: frontend_container
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_started
+    ports:
+      - "3000:3000"
+
+  backend:
+    image: my_java_springboot_app_image
+    container_name: backend_container
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_started
+    ports:
+      - "8080:8080"
+
+  db:
+    image: postgres:latest
+    container_name: postgresql_container
+    ports:
+      - "5432:5432"
