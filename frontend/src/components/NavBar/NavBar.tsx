@@ -49,7 +49,7 @@ function NavBar({ navBarItems }: { navBarItems: NavBarListItem[] }) {
             text="Sign in"
             className="btn primary"
             onClick={() => {
-              console.log("clicked");
+              navigateTo('auth/signin');
             }}
           />
         </div>

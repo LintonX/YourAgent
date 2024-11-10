@@ -5,6 +5,7 @@ import PricingView from "./pages/PricingView/PricingView";
 import ClientView from "./pages/ClientView/ClientView";
 import SelectionAgentView from "./pages/SelectionAgentView/SelectionAgentView";
 import Authentication from "./pages/AuthenticationView/Authentication";
+import AgentDashboard from "./pages/AgentDashboardView/AgentDashboard";
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
           <Route path={'/'} Component={ClientView}/>
           <Route path={'/Agents'} Component={PricingView}/>
           <Route path={'/tier/:level'} Component={SelectionAgentView}/>
-          <Route path={'/auth'} Component={Authentication}/>
+          <Route path="/auth/:view" element={<Authentication />} />
+          <Route path="/Agents/dashboard" Component={AgentDashboard} />
         </Routes>
       </BrowserRouter>
     </>

@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import "../../App.css";
-import "../SignIn/signInForm.css";
+import '../../App.css'
+import '../SignInForm/signInForm.css'
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
 
-function SignInForm() {
+function SignUpForm() {
   const [formDetails, setFormDetails] = useState({
     email: "",
     password: "",
-    confirmedPassword: "",
   });
 
   const handleOnChange = (key: string, value: string) => {
@@ -19,20 +18,12 @@ function SignInForm() {
 
   const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (formDetails.password !== formDetails.confirmedPassword) {
-      setPasswordErrorMsg("Passwords must match.");
-    } else {
-      setPasswordErrorMsg("");
-    }
-  }
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {};
 
   return (
     <>
       <div className="title-container">
-        <h4>Create an account</h4>
+        <h4>Sign in</h4>
         <p>Enter your email and password</p>
       </div>
       <div className="form-container">
@@ -47,7 +38,6 @@ function SignInForm() {
             }}
           />
           <div style={{ height: "12px" }}></div>
-          <span style={{color:"red"}}>{passwordErrorMsg}</span>
           <input
             type="password"
             placeholder="password"
@@ -56,37 +46,19 @@ function SignInForm() {
               handleOnChange("password", e.target.value);
             }}
           />
-          <div style={{ height: "12px" }}></div>
-          <input
-            type="password"
-            placeholder="confirm password"
-            required
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              handleOnChange("confirmedPassword", e.target.value);
-            }}
-          />
-          <div style={{ height: "14px" }}></div>
-          <div className="radio-btn-container">
-            <label>
-              <input name="tos-privacy-policy" type="radio" />
-              <span>&nbsp;&nbsp;I accept the TOS and Privacy Policy</span>
-            </label>
-          </div>
+          <span style={{ color: "red" }}>{passwordErrorMsg}</span>
           <div style={{ height: "14px" }}></div>
           <PrimaryButton
             style={{ width: "100%" }}
-            text="Create account"
+            text="Sign in"
             className="btn primary"
             onClick={() => console.log()}
           />
           <div style={{ height: "12px" }}></div>
-          <p>
-            Already have an account? <a href="">Sign in</a>{" "}
-          </p>
         </form>
       </div>
     </>
   );
 }
 
-export default SignInForm;
+export default SignUpForm;

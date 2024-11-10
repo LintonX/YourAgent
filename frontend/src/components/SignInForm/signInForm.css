@@ -1,22 +1,9 @@
-.outer-container {
-    display: flex;
-    justify-content: center;
-}
-
-.main-container {
-    display: flex;
-    width: 450px;
-    justify-content: center;
-    flex-direction: column;
-    margin: 200px;
-}
-
 .form-container {
     display: flex;
     flex-direction: column;
 }
   
-p, span {
+.outer-container > p, span {
     color: rgb(123, 123, 123);
 }
 
