@@ -9,6 +9,9 @@ export type CountySelectorProps = {
 };
 
 function CountySelector({ tier }: CountySelectorProps) {
+
+  console.log(tier);
+
   const { state } = useContext(SelectionContext);
   const [counties, setCounties] = useState<[]>([]);
 

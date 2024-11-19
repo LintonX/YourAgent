@@ -9,14 +9,14 @@ import {
   STANDARD_PRICE,
   PREMIUM_PRICE,
   FEATURES_CONTENT,
-  PRICING_VIEW_NAVBAR_ITEMS,
+  PRICING_VIEW_NAVBAR_ITEMS
 } from "../../constants";
 import FeatureCard from "../../components/FeatureCard/FeatureCard";
 import pricingViewHero from "../../assets/pricing-view-hero.png";
 import Footer from "../../components/Footer/Footer";
+import { useNavigate } from "react-router";
 
 function PricingView() {
-
   const scrollToSection = (sectionName: string) => {
     const section = document.getElementById(sectionName);
     console.log(section);
@@ -25,15 +25,29 @@ function PricingView() {
     }
   };
 
+  const navigate = useNavigate();
+
+  const navigateTo = (route: string) => {
+    navigate(route);
+  };
+
   return (
     <>
       <NavBar navBarItems={PRICING_VIEW_NAVBAR_ITEMS} />
       <div className="pricing-view-layout">
-        <div className="row pricing-top-container" id="row pricing-top-container">
+        <div
+          className="row pricing-top-container"
+          id="row pricing-top-container"
+        >
           <div className="pricing-top-container pricing-left-container">
             <h1 className="main-header">
-              Gain <span style={{color:"var(--quaternary-color)"}}>exclusive</span> access to a stream of local leads to <span style={{color:"var(--quaternary-color)"}}>grow</span> your real
-              estate business.
+              Gain{" "}
+              <span style={{ color: "var(--quaternary-color)" }}>
+                exclusive
+              </span>{" "}
+              access to a stream of local leads to{" "}
+              <span style={{ color: "var(--quaternary-color)" }}>grow</span>{" "}
+              your real estate business.
             </h1>
             <PrimaryButton
               text="Get Started"
@@ -44,10 +58,13 @@ function PricingView() {
             />
           </div>
           <div className="pricing-top-container pricing-right-container">
-            <img className="main-hero" src={pricingViewHero} alt="testttt" />
+            <img className="main-hero" src={pricingViewHero} alt="hero" />
           </div>
         </div>
-        <div className="row pricing-middle-container" id="row pricing-middle-container">
+        <div
+          className="row pricing-middle-container"
+          id="row pricing-middle-container"
+        >
           <h3 className="pricing-features-header">How It Works.</h3>
           <div className="pricing-features-container">
             <div className="features-grid">
@@ -64,11 +81,16 @@ function PricingView() {
             />
           </div>
         </div>
-        <div className="row pricing-bottom-container" id="row pricing-bottom-container">
+        <div
+          className="row pricing-bottom-container"
+          id="row pricing-bottom-container"
+        >
           <div id="pricing-cards-container">
             <div className="pricing-header-container">
               <h1 className="pricing-header">Choose the best plan for you.</h1>
-              <h5 className="pricing-header-sub-header">Plans starting at ${BASIC_PRICE}</h5>
+              <h5 className="pricing-header-sub-header">
+                Plans starting at ${BASIC_PRICE}
+              </h5>
             </div>
             <div className="pricing-cards-container">
               <PricingCard
@@ -81,6 +103,14 @@ function PricingView() {
                     state
                   </>
                 }
+                handleOnClick={() => navigateTo('/auth/signup')}
+                button={
+                  <PrimaryButton
+                    text="Get Started"
+                    className="btn primary"
+                    onClick={() => {}}
+                  />
+                }
               />
               <PricingCard
                 price={STANDARD_PRICE}
@@ -91,6 +121,14 @@ function PricingView() {
                     Choose up to <strong>3</strong> counties within your chosen
                     state
                   </>
+                }
+                handleOnClick={() => navigateTo('/auth/signup')}
+                button={
+                  <PrimaryButton
+                    text="Get Started"
+                    className="btn primary"
+                    onClick={() =>{}}
+                  />
                 }
               />
               <PricingCard
@@ -103,6 +141,14 @@ function PricingView() {
                     Choose up to <strong>7</strong> counties within your chosen
                     state
                   </>
+                }
+                handleOnClick={() => navigateTo('/auth/signup')}
+                button={
+                  <PrimaryButton
+                    text="Get Started"
+                    className="btn primary"
+                    onClick={() => {}}
+                  />
                 }
               />
             </div>

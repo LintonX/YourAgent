@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -38,4 +40,7 @@ public class Client {
 
     @JsonProperty("client_searched_place")
     private String searchedPlace;
+
+    @JsonProperty("client_time_inserted")
+    private Timestamp timeInserted;
 }

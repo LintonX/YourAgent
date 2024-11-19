@@ -13,7 +13,7 @@
     -webkit-box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.20);
     -moz-box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.20);
     box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.20);
-    background-color: #00A6FB;
+    background-color: var(--tertiary-color);
 }
 
 .total-county-box > h3, .selected-counties-box > h3 {

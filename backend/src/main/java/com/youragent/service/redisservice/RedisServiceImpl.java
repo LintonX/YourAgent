@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -17,14 +18,20 @@ public class RedisServiceImpl<K, V> implements RedisService<K, V>{
         this.redisTemplate = redisTemplate;
     }
 
-    public CompletableFuture<Void> setValue(@NonNull final K key, @NonNull final V value) {
+    public void setValue(@NonNull final K key, @NonNull final V value) {
         log.info("Storing {} : {} in cache.", key, value);
-        return CompletableFuture.runAsync(() -> redisTemplate.opsForValue().set(key, value));
+        redisTemplate.opsForValue().set(key, value);
     }
 
-    public CompletableFuture<V> getValue(@NonNull final K key) {
+    public void setValue(@NonNull final K key,
+                         @NonNull final V value,
+                         @NonNull final Duration ttl) {
+        log.info("Storing {} : {} in cache with TTL of {}.", key, value, ttl);
+        redisTemplate.opsForValue().set(key, value, ttl);
+    }
+
+    public V getValue(@NonNull final K key) {
         log.info("Retrieving {} from cache.", key);
-        return CompletableFuture.supplyAsync(() -> redisTemplate.opsForValue().get(key));
+        return redisTemplate.opsForValue().get(key);
     }
-
 }

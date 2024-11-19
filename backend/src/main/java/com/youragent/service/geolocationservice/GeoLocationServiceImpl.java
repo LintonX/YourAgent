@@ -35,43 +35,39 @@ public class GeoLocationServiceImpl implements GeoLocationService {
 
         final PlaceState cityState = PlaceState.builder().place(place).state(state).build();
 
-        final CompletableFuture<String> locationCounty = redisService.getValue(cityState);
+        final String locationCounty = redisService.getValue(cityState);
 
-        try {
-            if (locationCounty.get() != null) {
-                // - found county value associated with CityState key in redis
-                // - process and skip request to OSM
-                log.info("County ({}) was retrieved in cache", locationCounty.get());
-                return locationCounty.get();
+        if (locationCounty != null) {
+            // - found county value associated with CityState key in redis
+            // - process and skip request to OSM
+            log.info("County ({}) was retrieved in cache", locationCounty);
+            return locationCounty;
 
-            } else {
-                // - did not county value with given CityState key
-                // - process county lookup to OSM
-                // - store retrieved county in redis db as CityState:County
-                JsonNode jsonNode = restService.getRequest(
-                        String.format(Constants.NOMINATIM_OSM_URI, cleanInput(place), cleanInput(state)),
-                        JsonNode.class
-                );
+        } else {
+            // - did not county value with given CityState key
+            // - process county lookup to OSM
+            // - store retrieved county in redis db as CityState:County
+            JsonNode jsonNode = restService.getRequest(
+                    String.format(Constants.NOMINATIM_OSM_URI, cleanInput(place), cleanInput(state)),
+                    JsonNode.class
+            );
 
-                for (JsonNode location: jsonNode) {
-                    try {
-                        log.info(location .toPrettyString());
-                        final String addressTypeValue = location.get("addresstype").asText();
-                        if (ADDRESS_TYPE.contains(addressTypeValue)) {
-                            final String county = location.get("address").get("county").asText();
-                            if (!county.isEmpty()) {
-                                log.info("County ({}) was retrieved via Nominatim OSM Call", county);
-                                redisService.setValue(cityState, county);
-                                return county;
-                            }
+            for (JsonNode location: jsonNode) {
+                try {
+                    log.info(location .toPrettyString());
+                    final String addressTypeValue = location.get("addresstype").asText();
+                    if (ADDRESS_TYPE.contains(addressTypeValue)) {
+                        final String county = location.get("address").get("county").asText();
+                        if (!county.isEmpty()) {
+                            log.info("County ({}) was retrieved via Nominatim OSM Call", county);
+                            redisService.setValue(cityState, county);
+                            return county;
                         }
-                    } catch (NullPointerException e) {
-                        log.warn(e.getMessage());
                     }
+                } catch (NullPointerException e) {
+                    log.warn(e.getMessage());
                 }
             }
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
         }
         return null;
     }

@@ -8,8 +8,10 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
+@EnableRedisHttpSession
 public class RedisConfig {
 
     @Value("${spring.data.redis.host}")

@@ -1,4 +1,4 @@
-package com.youragent.dao.ClientDao;
+package com.youragent.dao.clientdao;
 
 import com.youragent.model.Client;
 import org.springframework.jdbc.core.RowMapper;
@@ -22,6 +22,7 @@ public class ClientMapper implements RowMapper<Client> {
                 .searchedPlace(resultSet.getString("searched_place"))
                 .searchedCounty(resultSet.getString("searched_county"))
                 .searchedState(resultSet.getString("searched_state"))
+                .timeInserted(resultSet.getTimestamp("time_inserted"))
                 .build();
     }
 }

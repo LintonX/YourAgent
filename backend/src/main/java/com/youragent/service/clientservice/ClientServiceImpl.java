@@ -1,9 +1,10 @@
 package com.youragent.service.clientservice;
 
-import com.youragent.dao.AgentDao.AgentDaoImpl;
-import com.youragent.dao.ClientDao.ClientDaoImpl;
+import com.youragent.dao.agentdao.AgentDaoImpl;
+import com.youragent.dao.clientdao.ClientDaoImpl;
 import com.youragent.dao.DaoUtils.AgentColumnConstants;
 import com.youragent.dao.DaoUtils.ClientColumnConstants;
+import com.youragent.dao.DaoUtils.DaoUtils;
 import com.youragent.model.Client;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +42,7 @@ public class ClientServiceImpl implements ClientService {
             clientDao.update(clientId, ClientColumnConstants.assignedIdOfAgent, idOfAgent);
 
             // update that agents timestamp via id which essentially moves agent to back of county queue
-            agentDao.update(idOfAgent, AgentColumnConstants.timeInserted, agentDao.getCurrentTimestamp());
+            agentDao.update(idOfAgent, AgentColumnConstants.timeInserted, DaoUtils.getCurrentTimestamp());
 
         } catch (DataAccessException e) {
             log.error("Error saving and assigning agent to client", e);
@@ -51,7 +52,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Long getNextAgentInCounty(String state, String county) {
+    public Long getNextAgentInCounty(@NonNull final String state, @NonNull final String county) {
         Optional<Long> idOfNextAgent = agentDao.getNextAgentInCounty(state, county);
         return idOfNextAgent.orElse(idOfNextAgent.orElseThrow());
     }

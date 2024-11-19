@@ -49,7 +49,8 @@ public class SqlQueryConstants {
                         'client_phone_number', clients.phone_number,
                         'client_searched_state', clients.searched_state,
                         'client_searched_county', clients.searched_county,
-                        'client_searched_place', clients.searched_place
+                        'client_searched_place', clients.searched_place,
+                        'client_time_inserted', clients.time_inserted
                     ))) AS client_objects,
                     array_to_json(array_agg(DISTINCT jsonb_build_object(
                         'county_name', counties.county_name,
@@ -87,11 +88,45 @@ public class SqlQueryConstants {
         LIMIT 1;
         """;
 
+    public static final String AGENT_SAVE_COUNTY_SQL_QUERY = """
+            INSERT INTO counties (county_name, state_name)
+            VALUES (?, ?)
+            ON CONFLICT (county_name, state_name)
+            DO UPDATE SET county_name = counties.county_name
+            RETURNING county_id;
+            """;
+
+    public static final String AGENT_MAP_COUNTY_TO_AGENT_SQL_QUERY = """
+            INSERT INTO county_agents (id_of_agent, id_of_county)
+            VALUES (?, ?)
+            RETURNING county_agent_id;
+            """;
+
+    //-------------------------------------------------------------------------------------------------------------
+
+    public static final String AGENT_CREDENTIALS_SAVE_CREDENTIALS_SQL_QUERY = """
+            INSERT INTO agent_credentials (%s, %s)
+            VALUES (?, ?)
+            RETURNING cred_id;
+            """;
+
+    public static final String AGENT_CREDENTIALS_GET_AGENT_CREDENTIALS_SQL_QUERY = """
+            SELECT cred_id, pass, id_of_agent
+            FROM agent_credentials
+            WHERE agent_credentials.email = ?
+            """;
+
+    public static final String AGENT_CREDENTIALS_UPDATE_SQL_QUERY = """
+                        UPDATE agent_credentials
+                        SET %s
+                        WHERE cred_id = ?;
+            """;
+
     //-------------------------------------------------------------------------------------------------------------
 
     public static final String CLIENT_SAVE_SQL_QUERY = """
-            INSERT INTO clients (%s, %s, %s, %s, %s, %s, %s)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO clients (%s, %s, %s, %s, %s, %s, %s, %s)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             RETURNING client_id;
             """;
 
@@ -105,7 +140,8 @@ public class SqlQueryConstants {
                                     clients.phone_number as client_phone_number,
                                     clients.searched_state,
                                     clients.searched_county,
-                                    clients.searched_place
+                                    clients.searched_place,
+                                    clients.time_inserted
                                     FROM clients
                                     WHERE client_id = ?;
                                     """;
@@ -115,4 +151,5 @@ public class SqlQueryConstants {
                         SET %s
                         WHERE client_id = ?;
                         """;
+
 }

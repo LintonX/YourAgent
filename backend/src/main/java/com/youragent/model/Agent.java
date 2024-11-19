@@ -1,12 +1,16 @@
 package com.youragent.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Agent {
 
     private long id;
@@ -19,7 +23,7 @@ public class Agent {
 
     private String phoneNumber;
 
-    private boolean hasAcces;
+    private boolean hasAccess;
 
     private AgentTier tier;
 

@@ -4,9 +4,10 @@ import "./clientDetailUnit.css";
 import { ClientContext, userInfo } from "../ClientSearchDetailCarousel";
 import PrimaryButton from "../../PrimaryButton/PrimaryButton";
 import AIBubble from "../../AIBubble/AIBubble";
+import { SERVER } from "../../../constants";
 
 function ClientDetailUnit() {
-  const { quickFact, setUserInfo } = useContext(ClientContext);
+  const { quickFact, setUserInfo, place, county } = useContext(ClientContext);
 
   const [formData, setFormData] = useState<userInfo>({
     firstName: "",
@@ -21,16 +22,43 @@ function ClientDetailUnit() {
   };
 
   const handleSubmit = () => {
-    console.log(formData);
-    if (formData.firstName && formData.email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
+    if (
+      formData.firstName &&
+      formData.email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+    ) {
       setUserInfo(formData);
     }
+
+    let [placeValue, stateValue] = place.split(",");
+
+    placeValue = placeValue.trim();
+    stateValue = stateValue.trim();
+
+    const clientDetails = {
+      client_first_name: formData.firstName,
+      client_last_name: formData.lastName ?? "",
+      client_email: formData.email,
+      client_phone_number: formData.phoneNumber ?? "",
+      client_searched_county: county,
+      client_searched_place: placeValue,
+      client_searched_state: stateValue
+    }
+
+    fetch(`${SERVER}processClientSubmit`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(clientDetails),
+    });
   };
 
   return (
     <div>
       <h1 className="details-header">
-        How should your agent contact&nbsp;<span style={{ color: "var(--quaternary-color)" }}>you</span>?
+        How should your agent contact&nbsp;
+        <span style={{ color: "var(--quaternary-color)" }}>you</span>?
       </h1>
       <div className="details-container">
         <form
@@ -70,7 +98,7 @@ function ClientDetailUnit() {
             />
             <input
               className="phoneNumber-input"
-              type="phone"
+              type="tel"
               name="phoneNumber"
               placeholder="Optional: Phone number"
               value={formData.phoneNumber}
@@ -86,7 +114,9 @@ function ClientDetailUnit() {
           </div>
         </form>
         <div className="ai-bubble-container-details">
-          {quickFact !== "" && <AIBubble quickFact={quickFact || "Loading..."}/>}
+          {quickFact !== "" && (
+            <AIBubble quickFact={quickFact || "Loading..."} />
+          )}
         </div>
       </div>
       {/* {county} */}

@@ -1,6 +1,6 @@
 package com.youragent.youragent;
 
-import com.youragent.dao.AgentDao.AgentDaoImpl;
+import com.youragent.dao.agentdao.AgentDaoImpl;
 import com.youragent.model.Agent;
 import com.youragent.model.AgentTier;
 import com.youragent.model.Client;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -20,6 +19,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,7 +40,7 @@ public class AgentDaoTests {
             new PostgreSQLContainer<>(DockerImageName.parse("postgres:17.0"))
                     .withInitScript("init.sql")
                     .withCreateContainerCmdModifier(cmd -> cmd.withName("testcontainer-AgentDaoTests"))
-                    .withDatabaseName("agent_dao_tests")
+                    .withDatabaseName("agent-dao-tests-db")
                     .withUsername("postgres")
                     .withPassword("postgres");
 
@@ -69,22 +69,22 @@ public class AgentDaoTests {
     public void get_validAgent_shouldReturnAgentWithAssociatedClients() {
         final Agent fetchedAgent = agentDao.get(1L);
 
-        Client client = generateTestClient2();
+        final Client client = generateTestClient2();
 
         assertThat(fetchedAgent.getFirstName()).isEqualTo("Alice");
         assertThat(fetchedAgent.getLastName()).isEqualTo("Taylor");
-        assertThat(fetchedAgent.isHasAcces()).isTrue();
+        assertThat(fetchedAgent.isHasAccess()).isTrue();
         assertThat(fetchedAgent.getClients().size()).isEqualTo(3);
         assertThat(fetchedAgent.getClients()).contains(client);
     }
 
     @Test
     void update_validAgent_shouldUpdateAgentPhoneNumberWithProvidedPhoneNumber() {
-        Agent agent = generateTestAgent2();
+        final Agent agent = generateTestAgent2();
 
         agentDao.update(agent.getId(), "phone_number", "555-555-5555");
 
-        Agent updatedAgent = agentDao.get(agent.getId());
+        final Agent updatedAgent = agentDao.get(agent.getId());
 
         assertThat(updatedAgent.getPhoneNumber()).isEqualTo("555-555-5555");
     }
@@ -134,7 +134,7 @@ public class AgentDaoTests {
                 .lastName("Taylor")
                 .email("alice.taylor@example.com")
                 .phoneNumber("301-555-0123")
-                .hasAcces(true)
+                .hasAccess(true)
                 .tier(AgentTier.BASIC)
                 .selectedState("MD")
                 .build();
@@ -147,7 +147,7 @@ public class AgentDaoTests {
                 .lastName("Johnson")
                 .email("kevin.johnson@example.com")
                 .phoneNumber("301-432-0246")
-                .hasAcces(true)
+                .hasAccess(true)
                 .tier(AgentTier.BASIC)
                 .selectedState("MD")
                 .build();
@@ -178,6 +178,7 @@ public class AgentDaoTests {
                 .searchedState("MD")
                 .searchedCounty("Montgomery")
                 .searchedPlace("Rockville")
+                .timeInserted(Timestamp.valueOf("2024-11-04 18:12:31.5"))
                 .build();
     }
 }

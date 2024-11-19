@@ -1,33 +1,37 @@
 package com.youragent.config;
 
-import com.youragent.dao.AgentDao.AgentMapper;
-import com.youragent.dao.ClientDao.ClientMapper;
-import com.youragent.dao.AgentDao.AgentDaoImpl;
-import com.youragent.dao.ClientDao.ClientDaoImpl;
+import com.youragent.dao.agentdao.AgentMapper;
+import com.youragent.dao.authdao.AuthDaoImpl;
+import com.youragent.dao.authdao.AuthMapper;
+import com.youragent.dao.clientdao.ClientMapper;
+import com.youragent.dao.agentdao.AgentDaoImpl;
+import com.youragent.dao.clientdao.ClientDaoImpl;
 import lombok.NonNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.ZoneOffset;
 
 @Configuration
 public class DaoConfig {
 
     @Bean
     public AgentDaoImpl agentDao(@NonNull final JdbcTemplate jdbcTemplate,
-                               @NonNull final AgentMapper agentMapper,
-                               @NonNull final Timestamp timestamp) {
-        return new AgentDaoImpl(jdbcTemplate, agentMapper, timestamp);
+                                 @NonNull final AgentMapper agentMapper) {
+        return new AgentDaoImpl(jdbcTemplate, agentMapper);
     }
 
     @Bean
     public ClientDaoImpl clientDao(@NonNull final JdbcTemplate jdbcTemplate,
-                                 @NonNull final ClientMapper clientMapper) {
+                                   @NonNull final ClientMapper clientMapper) {
         return new ClientDaoImpl(jdbcTemplate, clientMapper);
+    }
+
+    @Bean
+    public AuthDaoImpl authDao(@NonNull final JdbcTemplate jdbcTemplate,
+                               @NonNull final AuthMapper authMapper) {
+        return new AuthDaoImpl(jdbcTemplate, authMapper);
     }
 
     @Bean
@@ -41,12 +45,10 @@ public class DaoConfig {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate(@NonNull final DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
-    }
+    public AuthMapper authMapper() { return new AuthMapper(); };
 
     @Bean
-    public Timestamp timestamp() {
-        return Timestamp.from(Instant.now().atZone(ZoneOffset.UTC).toInstant());
+    public JdbcTemplate jdbcTemplate(@NonNull final DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
     }
 }

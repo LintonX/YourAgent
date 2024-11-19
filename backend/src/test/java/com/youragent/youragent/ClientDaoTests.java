@@ -1,6 +1,6 @@
 package com.youragent.youragent;
 
-import com.youragent.dao.ClientDao.ClientDaoImpl;
+import com.youragent.dao.clientdao.ClientDaoImpl;
 import com.youragent.model.Client;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import java.util.Optional;
+import java.sql.Timestamp;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -34,7 +34,7 @@ public class ClientDaoTests {
             new PostgreSQLContainer<>(DockerImageName.parse("postgres:17.0"))
                     .withInitScript("init.sql")
                     .withCreateContainerCmdModifier(cmd -> cmd.withName("testcontainer-AgentDaoTests"))
-                    .withDatabaseName("agent_dao_tests")
+                    .withDatabaseName("client-dao-tests-db")
                     .withUsername("postgres")
                     .withPassword("postgres");
 
@@ -65,7 +65,7 @@ public class ClientDaoTests {
     }
 
     @Test void get_nonexistentClient_shouldThrowRuntimeError() {
-        assertThrows(RuntimeException.class, () -> clientDao.get(1000));
+        assertThrows(RuntimeException.class, () -> clientDao.get(1000L));
     }
 
     // Should change id of agent from 2L to 1L
@@ -89,6 +89,7 @@ public class ClientDaoTests {
                 .searchedCounty("Anne Arundel")
                 .searchedState("MD")
                 .searchedPlace("Annapolis")
+                .timeInserted(Timestamp.valueOf("2024-11-04 23:12:31.515611342"))
                 .build();
     }
 
@@ -101,6 +102,7 @@ public class ClientDaoTests {
                 .searchedCounty("Montgomery")
                 .searchedState("MD")
                 .searchedPlace("Gaithersburg")
+                .timeInserted(Timestamp.valueOf("2024-11-04 23:13:31.515611342"))
                 .build();
     }
 }

@@ -3,7 +3,7 @@
     flex-direction: column;
 }
   
-.outer-container > p, span {
+.outer-container > p, .outer-container > span {
     color: rgb(123, 123, 123);
 }
 

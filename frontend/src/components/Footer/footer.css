@@ -1,6 +1,7 @@
 .footer-container {
     display: flex;
     width: 100vw;
+    align-self: flex-end;
 }
 
 .footer-left-container {

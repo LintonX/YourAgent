@@ -31,8 +31,7 @@ function MapStateSelector() {
               <Geography className="state-style"
                 key={index}
                 geography={geography}
-                
-                stroke="#FFFFFF"
+                stroke="#d3d3d3c1"
                 strokeWidth={0.8}
                 onClick={() => setState(geography.properties?.name)}
               />

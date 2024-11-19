@@ -17,7 +17,7 @@ public class GeoLocationController {
 
     private final GeoLocationService geoLocationService;
 
-    public GeoLocationController(@NonNull GeoLocationService geoLocationService) {
+    public GeoLocationController(@NonNull final GeoLocationService geoLocationService) {
         this.geoLocationService = geoLocationService;
     }
 

@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import "../../App.css";
-import "../SignInForm/signInForm.css";
+import "../SignUpForm/signUpForm.css";
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
+import { SERVER } from "../../constants";
+import { useNavigate } from "react-router-dom";
 
 function SignUpForm() {
+
+  const navigate = useNavigate();
+
   const [formDetails, setFormDetails] = useState({
     email: "",
     password: "",
-    confirmedPassword: "",
+    confirmed_password: "",
   });
 
   const handleOnChange = (key: string, value: string) => {
@@ -19,13 +24,33 @@ function SignUpForm() {
 
   const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (formDetails.password !== formDetails.confirmedPassword) {
+    if (formDetails.password !== formDetails.confirmed_password) {
       setPasswordErrorMsg("Passwords must match.");
     } else {
       setPasswordErrorMsg("");
+    
+      const response = await fetch(`${SERVER}auth/createAgentAccount`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formDetails.email,
+          pass: formDetails.password
+        }),
+      });
+
+      const body = await response.text();
+
+      if (body) {
+        console.log("in here")
+        navigate(`/auth/signin`)
+        window.location.reload();
+      }
     }
   };
 
@@ -37,7 +62,7 @@ function SignUpForm() {
       </div>
       <div className="form-container">
         <form className="form-object" onSubmit={handleFormSubmit}>
-          <div style={{ height: "8px" }}></div>
+          <div style={{ height: "12px" }}></div>
           <input
             type="email"
             placeholder="youragent@example.com"
@@ -62,7 +87,7 @@ function SignUpForm() {
             placeholder="confirm password"
             required
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              handleOnChange("confirmedPassword", e.target.value);
+              handleOnChange("confirmed_password", e.target.value);
             }}
           />
           <div style={{ height: "14px" }}></div>

@@ -1,9 +1,9 @@
-package com.youragent.dao.AgentDao;
+package com.youragent.dao.agentdao;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.youragent.dao.ClientDao.ClientMapper;
+import com.youragent.dao.clientdao.ClientMapper;
 import com.youragent.model.Agent;
 import com.youragent.model.AgentTier;
 import com.youragent.model.Client;
@@ -94,7 +94,7 @@ public class AgentMapper implements ResultSetExtractor<Agent>, RowMapper<Agent> 
                     .lastName(resultSet.getString("agent_last_name"))
                     .email(resultSet.getString("agent_email"))
                     .phoneNumber(resultSet.getString("agent_phone_number"))
-                    .hasAcces(resultSet.getBoolean("has_access"))
+                    .hasAccess(resultSet.getBoolean("has_access"))
                     .tier(AgentTier.valueOf(resultSet.getString("tier").toUpperCase()))
                     .selectedState(resultSet.getString("selected_state"))
                     .clients(Arrays.stream(clientsArray).toList())
@@ -114,7 +114,7 @@ public class AgentMapper implements ResultSetExtractor<Agent>, RowMapper<Agent> 
                 .lastName(resultSet.getString("agent_last_name"))
                 .email(resultSet.getString("agent_email"))
                 .phoneNumber(resultSet.getString("agent_phone_number"))
-                .hasAcces(resultSet.getBoolean("has_access"))
+                .hasAccess(resultSet.getBoolean("has_access"))
                 .tier(AgentTier.valueOf(resultSet.getString("tier").toUpperCase()))
                 .selectedState(resultSet.getString("selected_state"))
                 .build();

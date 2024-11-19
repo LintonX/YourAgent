@@ -1,11 +1,9 @@
 package com.youragent.controller;
 
-import com.youragent.dao.AgentDao.AgentDaoImpl;
 import com.youragent.model.Agent;
 import com.youragent.service.agentservice.AgentServiceImpl;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +15,7 @@ public class AgentController {
 
     private final AgentServiceImpl agentService;
 
-    public AgentController(@NonNull AgentServiceImpl agentService) {
+    public AgentController(@NonNull final AgentServiceImpl agentService) {
         this.agentService = agentService;
     }
 

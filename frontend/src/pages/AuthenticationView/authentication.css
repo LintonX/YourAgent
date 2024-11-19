@@ -14,7 +14,7 @@
     margin: 200px 200px 0px 200px;
 }
 
-.outer-container > p, span {
+.outer-container > p, .outer-container > span {
     color: rgb(123, 123, 123);
 }
 

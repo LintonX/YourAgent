@@ -1,6 +1,6 @@
 package com.youragent.service.agentservice;
 
-import com.youragent.dao.AgentDao.AgentDaoImpl;
+import com.youragent.dao.agentdao.AgentDaoImpl;
 import com.youragent.model.Agent;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +18,10 @@ public class AgentServiceImpl implements AgentService{
 
     public Agent getAgentContext(long agentId) {
         return agentDao.get(agentId);
+    }
+
+    public Long saveAgent(@NonNull final Agent agent) {
+        return agentDao.save(agent);
     }
 
 }

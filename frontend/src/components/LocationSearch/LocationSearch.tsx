@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import "../../App.css";
 import "../LocationSearch/locationSearch.css";
@@ -26,18 +26,27 @@ function LocationSearch({ suggestions }: AutoCompleteProps) {
     );
 
     setFilteredSuggestions([...filtered]);
-    setShowSuggestions(true);
   };
+
+  useEffect(() => {
+    if (filteredSuggestions.length > 0) {
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+  }, [filteredSuggestions]);
 
   const handleOnClick = (suggestion: string) => {
     setInput(suggestion);
-    setFilteredSuggestions([]);
-    setShowSuggestions(false);
     const [place, state] = suggestion.split(",");
     fetchCounty(place, state);
     fetchQuickFact(suggestion);
     setPlace(suggestion);
   };
+
+  const removeCountyFromPlace = (place: string) => {
+    return place.replace('County', '').trim();
+  }
 
   const fetchCounty = async (place: string, state: string) => {
     try {
@@ -47,7 +56,7 @@ function LocationSearch({ suggestions }: AutoCompleteProps) {
 
       if (response.ok) {
         const countyFound = await response.text();
-        setCounty(countyFound);
+        setCounty(removeCountyFromPlace(countyFound));
       } else {
         console.log(`Failed to fetch county: ${response.status} - ${response.statusText}`);
       }

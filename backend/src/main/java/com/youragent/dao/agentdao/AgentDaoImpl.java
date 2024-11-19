@@ -1,4 +1,4 @@
-package com.youragent.dao.AgentDao;
+package com.youragent.dao.agentdao;
 
 import com.youragent.dao.Dao;
 import com.youragent.dao.DaoUtils.DaoUtils;
@@ -8,7 +8,6 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataRetrievalFailureException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.datasource.lookup.DataSourceLookupFailureException;
@@ -30,14 +29,10 @@ public class AgentDaoImpl implements Dao<Agent> {
 
     private final AgentMapper agentMapper;
 
-    private final Timestamp timestamp;
-
     public AgentDaoImpl(@NonNull final JdbcTemplate jdbcTemplate,
-                        @NonNull final AgentMapper agentMapper,
-                        @NonNull final Timestamp timestamp){
+                        @NonNull final AgentMapper agentMapper){
         this.jdbcTemplate = jdbcTemplate;
         this.agentMapper = agentMapper;
-        this.timestamp = timestamp;
     }
 
     @Override
@@ -65,11 +60,32 @@ public class AgentDaoImpl implements Dao<Agent> {
                 agent.getLastName(),
                 agent.getPhoneNumber(),
                 agent.getEmail(),
-                agent.isHasAcces(),
+                agent.isHasAccess(),
                 agent.getTier().toString().toLowerCase(),
                 agent.getSelectedState(),
-                timestamp
+                DaoUtils.getCurrentTimestamp()
         );
+
+        for (String county: agent.getSelectedCounties()) {
+            // insert county into counties table
+            final Long countyId = jdbcTemplate.queryForObject(
+                    SqlQueryConstants.AGENT_SAVE_COUNTY_SQL_QUERY,
+                    Long.class,
+                    county,
+                    agent.getSelectedState()
+            );
+
+            // create county and agent relationship in county_agents table
+            final Object[] args = new Object[]{insertedAgentId, countyId};
+            final int[] argTypes = new int[]{DaoUtils.getSqlType(insertedAgentId), DaoUtils.getSqlType(countyId)};
+
+            final Long countyAgentId = jdbcTemplate.queryForObject(
+                    SqlQueryConstants.AGENT_MAP_COUNTY_TO_AGENT_SQL_QUERY,
+                    args,
+                    argTypes,
+                    Long.class
+            );
+        }
 
         log.info("Successfully inserted agent with primary key id = {}", insertedAgentId);
 
@@ -155,7 +171,7 @@ public class AgentDaoImpl implements Dao<Agent> {
         }
     }
 
-    public Optional<Long> getNextAgentInCounty(@NonNull final String county, @NonNull final String state) {
+    public Optional<Long> getNextAgentInCounty(@NonNull final String state, @NonNull final String county) {
 
         log.info("Attempting to get the next agent from {}, {} agent queue", county, state);
 
@@ -183,10 +199,6 @@ public class AgentDaoImpl implements Dao<Agent> {
         }
 
         return Optional.of(agentId);
-    }
-
-    public Timestamp getCurrentTimestamp() {
-        return timestamp;
     }
 
     public void printAgentTable() {

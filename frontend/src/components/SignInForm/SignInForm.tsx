@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import '../../App.css'
 import '../SignInForm/signInForm.css'
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
+import { SERVER } from "../../constants";
+import { useNavigate } from "react-router";
 
 function SignUpForm() {
+
   const [formDetails, setFormDetails] = useState({
     email: "",
     password: "",
@@ -18,7 +21,44 @@ function SignUpForm() {
 
   const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {};
+  const navigate = useNavigate();
+
+  const handleNavigate = (agent: any) => {
+    navigate('/agents/dashboard', {
+      state: {
+        authorized: true,
+        agentContext: agent
+      }, 
+    });
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const response = await fetch(`${SERVER}auth/signin`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: formDetails.email,
+        pass: formDetails.password
+      }),
+      // credentials: 'include'
+    });
+
+    const status = response.status;
+    
+    if (status === 200) {
+      setPasswordErrorMsg("");
+      const agent = JSON.parse(await response.text());
+      console.log(agent)
+      handleNavigate(agent);
+    } else {
+      setPasswordErrorMsg("Invalid email or password.")
+    }
+  };
 
   return (
     <>
@@ -29,6 +69,7 @@ function SignUpForm() {
       <div className="form-container">
         <form className="form-object" onSubmit={handleFormSubmit}>
           <div style={{ height: "8px" }}></div>
+          <span style={{ color: "red" }}>{passwordErrorMsg}</span>
           <input
             type="email"
             placeholder="youragent@example.com"
@@ -46,7 +87,6 @@ function SignUpForm() {
               handleOnChange("password", e.target.value);
             }}
           />
-          <span style={{ color: "red" }}>{passwordErrorMsg}</span>
           <div style={{ height: "14px" }}></div>
           <PrimaryButton
             style={{ width: "100%" }}

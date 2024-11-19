@@ -3,7 +3,7 @@
     flex-direction: column;
 }
   
-p, span {
+.outer-container > p, .outer-container > span {
     color: rgb(123, 123, 123);
 }
 
@@ -23,8 +23,25 @@ p, span {
     outline: none;
 }
 
+.first-name-input , .last-name-input  {
+    border: solid 1px rgb(173, 173, 173);
+    border-radius: 5px;
+    padding: 7px 12px 7px 12px;
+    width: 49%;
+}
+
+.first-name-input , .last-name-input {
+    border: solid 1px rgb(173, 173, 173);
+    outline: none;
+}
+
 .radio-btn-container {
     text-align: left;
     display: inline;
     justify-content: center;
+}
+
+.three-details-container {
+    display: flex;
+    justify-content: space-between;
 }

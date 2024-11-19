@@ -1,9 +1,6 @@
 import React from "react";
 import "../../App.css";
 import "./pricingCard.css";
-import { useNavigate } from "react-router";
-import { PRICE_TIER_MAP } from "../../constants";
-import PrimaryButton from "../PrimaryButton/PrimaryButton";
 
 type PricingCardProps = {
   price: string;
@@ -11,6 +8,8 @@ type PricingCardProps = {
   title: string;
   briefDescription: string;
   description: React.ReactNode;
+  button: React.ReactNode;
+  handleOnClick: () => void
 };
 
 function PricingCard({
@@ -19,24 +18,11 @@ function PricingCard({
   title,
   briefDescription,
   description,
+  button,
+  handleOnClick
 }: PricingCardProps) {
-  const navigate = useNavigate();
-
-  const navigateTo = (route: string) => {
-    navigate(route);
-  };
-
-  const handleOnClick = (price: string) => {
-    console.log(price);
-    if (price in PRICE_TIER_MAP) {
-      navigateTo(
-        `/tier/${PRICE_TIER_MAP[price as keyof typeof PRICE_TIER_MAP]}`
-      );
-    }
-  };
-
   return (
-    <div className="pricing-card" onClick={() => handleOnClick(price)}>
+    <div className="pricing-card" onClick={handleOnClick}>
       <div className="pricing-card-top">
         <p className="card-header">{title}</p>
       </div>
@@ -66,11 +52,7 @@ function PricingCard({
       <hr className="hr-line" />
       <div className="pricing-card-bottom">{description}</div>
       <div className="button-container">
-        <PrimaryButton
-          text="Get Started"
-          className="btn primary"
-          onClick={() => handleOnClick(price)}
-        />
+        {button}
       </div>
     </div>
   );

@@ -15,4 +15,10 @@ public class Constants {
                     "Do not mention the words fun or interesting. ";
 
     public static final int OPEN_AI_MAX_TOKENS = 70;
+
+    public static final Long BASIC_PRICE = 1900L;
+
+    public static final Long STANDARD_PRICE = 2800L;
+
+    public static final Long PREMIUM_PRICE = 5900L;
 }

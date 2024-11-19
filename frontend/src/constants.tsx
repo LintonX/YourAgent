@@ -66,7 +66,7 @@ export const FEATURES_CONTENT: Array<FeatureContent> = [
     }
         ,
     {
-        title: "Hassle-Free Client Matching", 
+        title: "Hassle-Free Client Sourcing", 
         content: "Focus more time on closing deals, not searching for clients", 
         icon: ClockIcon
     },
@@ -96,7 +96,7 @@ export const CLIENT_VIEW_NAVBAR_ITEMS: Array<NavBarListItem> = [
     },
     {
         label: 'Agents',
-        shouldNavigateTo: 'Agents'
+        shouldNavigateTo: 'agents'
     }
 ];
 
@@ -123,3 +123,84 @@ export const CLIENT_VIEW_FEATURES_CONTENT: Array<ClientFeatureCardProps> = [
         step: '3'
     }
 ];
+
+export interface ClientModel {
+    id: number;
+    assignedAgentId: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    searchedCounty: string;
+    searchedState: string;
+    searchedPlace: string;
+    timeInserted: string;
+};
+
+export type AgentTier = "NONE" | "BASIC" | "STANDARD" | "PREMIUM";
+
+export interface AgentModel {
+  id?: number;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phoneNumber?: string;
+  hasAccess?: boolean;
+  tier?: AgentTier;
+  selectedState?: string;
+  selectedCounties?: string[];
+  clients?: ClientModel[];
+};
+
+export const STATE_ABBREVIATIONS = {
+    "Alabama": "AL",
+    "Alaska": "AK",
+    "Arizona": "AZ",
+    "Arkansas": "AR",
+    "California": "CA",
+    "Colorado": "CO",
+    "Connecticut": "CT",
+    "Delaware": "DE",
+    "Florida": "FL",
+    "Georgia": "GA",
+    "Hawaii": "HI",
+    "Idaho": "ID",
+    "Illinois": "IL",
+    "Indiana": "IN",
+    "Iowa": "IA",
+    "Kansas": "KS",
+    "Kentucky": "KY",
+    "Louisiana": "LA",
+    "Maine": "ME",
+    "Maryland": "MD",
+    "Massachusetts": "MA",
+    "Michigan": "MI",
+    "Minnesota": "MN",
+    "Mississippi": "MS",
+    "Missouri": "MO",
+    "Montana": "MT",
+    "Nebraska": "NE",
+    "Nevada": "NV",
+    "New Hampshire": "NH",
+    "New Jersey": "NJ",
+    "New Mexico": "NM",
+    "New York": "NY",
+    "North Carolina": "NC",
+    "North Dakota": "ND",
+    "Ohio": "OH",
+    "Oklahoma": "OK",
+    "Oregon": "OR",
+    "Pennsylvania": "PA",
+    "Rhode Island": "RI",
+    "South Carolina": "SC",
+    "South Dakota": "SD",
+    "Tennessee": "TN",
+    "Texas": "TX",
+    "Utah": "UT",
+    "Vermont": "VT",
+    "Virginia": "VA",
+    "Washington": "WA",
+    "West Virginia": "WV",
+    "Wisconsin": "WI",
+    "Wyoming": "WY"
+  };

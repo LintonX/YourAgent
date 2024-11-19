@@ -21,4 +21,6 @@ public class AgentColumnConstants {
     public static final String clientIds = "client_ids";
 
     public static final String timeInserted = "time_inserted";
+
+    public static final String pass = "pass";
 }

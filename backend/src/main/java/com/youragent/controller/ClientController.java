@@ -16,11 +16,11 @@ public class ClientController {
 
     private final ClientService clientService;
 
-    public ClientController(@NonNull ClientService clientService) {
+    public ClientController(@NonNull final ClientService clientService) {
         this.clientService = clientService;
     }
 
-    @PostMapping(value = "/processClientSubmit")
+    @PostMapping(path = "/processClientSubmit")
     public void processClientSubmit(@RequestBody @NonNull Client client) {
         log.info(client.toString());
 

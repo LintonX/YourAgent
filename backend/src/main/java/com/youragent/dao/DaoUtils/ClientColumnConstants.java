@@ -17,4 +17,6 @@ public class ClientColumnConstants {
     public static final String searchedPlace = "searched_place";
 
     public static final String assignedIdOfAgent = "id_of_agent";
+
+    public static final String timeInserted = "time_inserted";
 }

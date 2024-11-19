@@ -1,5 +1,5 @@
 package com.youragent.model;
 
 public enum AgentTier {
-    BASIC, STANDARD, PREMIUM;
+    NONE, BASIC, STANDARD, PREMIUM;
 }

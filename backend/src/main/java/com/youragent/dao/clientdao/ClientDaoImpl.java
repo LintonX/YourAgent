@@ -1,4 +1,4 @@
-package com.youragent.dao.ClientDao;
+package com.youragent.dao.clientdao;
 
 import com.youragent.dao.Dao;
 import com.youragent.dao.DaoUtils.DaoUtils;
@@ -42,7 +42,8 @@ public class ClientDaoImpl implements Dao<Client> {
                                                            phoneNumber,
                                                            searchedState,
                                                            searchedCounty,
-                                                           searchedPlace
+                                                           searchedPlace,
+                                                            timeInserted
         );
 
         log.info("query: {}", sql);
@@ -55,8 +56,9 @@ public class ClientDaoImpl implements Dao<Client> {
                 client.getEmail(),
                 client.getPhoneNumber(),
                 client.getSearchedState(),
-                client.getSearchedCounty(),
-                client.getSearchedPlace()
+                DaoUtils.escapeSingleQuotes(client.getSearchedCounty()),
+                DaoUtils.escapeSingleQuotes(client.getSearchedPlace()),
+                DaoUtils.getCurrentTimestamp()
         );
 
         log.info("Successfully inserted client with primary key id = {}", insertedClientId);

@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS clients (
                          searched_state VARCHAR(50),
                          searched_county VARCHAR(100),
                          searched_place VARCHAR(100),
+                         time_inserted TIMESTAMP(1),
                          CONSTRAINT fk_id_of_agent
                              FOREIGN KEY (id_of_agent)
                                  REFERENCES agents(agent_id) ON DELETE SET DEFAULT
